@@ -151,16 +151,31 @@
   }
   .hero-text h1 {
     font-family: 'Orbitron', sans-serif;
-    font-size: 26px;
+    font-size: 24px;
     letter-spacing: 2px;
     color: #fff;
     text-shadow: 0 0 14px rgba(79, 216, 255, 0.6);
   }
-  .hero-text p {
+  .hero-quote {
     font-size: 16px;
-    margin-top: 8px;
+    margin-top: 10px;
+    color: #e4f2fb;
+    max-width: 720px;
+    line-height: 1.45;
+    font-style: italic;
+  }
+  .hero-author {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--cyan);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+  .hero-desc {
+    font-size: 14px;
+    margin-top: 10px;
     color: #9cb5cf;
-    max-width: 650px;
+    max-width: 720px;
     line-height: 1.4;
   }
   .hero-chips {
@@ -205,10 +220,11 @@
     align-items: center;
     justify-content: center;
     font-family: 'Orbitron', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--cyan);
     flex-shrink: 0;
+    text-align: center;
   }
   .gauge-info .label {
     font-family: 'JetBrains Mono', monospace;
@@ -218,12 +234,11 @@
   }
   .gauge-info .val {
     font-family: 'Orbitron', sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     color: #fff;
     margin-top: 2px;
   }
 
-  /* Live Chart Section */
   .chart-panel {
     background: var(--hud-glass);
     border: 1px solid var(--hud-border);
@@ -248,7 +263,7 @@
   }
   .chart-container-box {
     width: 100%;
-    height: 480px;
+    height: 460px;
     border-radius: 6px;
     overflow: hidden;
     border: 1px solid rgba(79, 216, 255, 0.12);
@@ -325,7 +340,7 @@
     .hero-chips { justify-content: center; }
     .bracket-tl, .bracket-tr, .bracket-bl, .bracket-br { display: none; }
     .hud-container { padding: 16px; }
-    .chart-container-box { height: 360px; }
+    .chart-container-box { height: 350px; }
   }
 </style>
 </head>
@@ -344,16 +359,18 @@
       KAIROS · ONLINE
     </div>
     <div id="live-clock" class="clock">--:--:-- --</div>
-    <div class="panel-tag">AMERICA/LOS_ANGELES</div>
+    <div id="telemetry-date" class="panel-tag">SYNCING...</div>
   </div>
 
   <div class="hero-core">
     <div class="hero-text">
       <h1>OPERATIONAL BRIEFING</h1>
-      <p>Telemetry nominal. Real-time NQ/ES feed active, NY AM window parameters locked, STMicroelectronics operations active, and UCSB runway on schedule.</p>
+      <div id="brief-quote" class="hero-quote">"Whatever the Way, the master of strategy does not appear fast. Really skillful people never get out of time, are always deliberate, and never appear busy."</div>
+      <div id="brief-author" class="hero-author">— Miyamoto Musashi</div>
+      <p id="brief-desc" class="hero-desc">Telemetry nominal. NY AM window parameters locked, STMicroelectronics operations active, and UCSB graduation runway on schedule.</p>
       <div class="hero-chips">
         <span class="chip chip-cyan">CALLSIGN: KAIROS</span>
-        <span class="chip chip-emerald">MONDAYS: STRICT 1:1</span>
+        <span id="chip-monday" class="chip chip-emerald">MONDAY: 1:1 RR</span>
         <span class="chip chip-violet">RISK CAP: 1R</span>
       </div>
     </div>
@@ -366,31 +383,31 @@
 
   <div class="gauge-grid">
     <div class="gauge-card">
-      <div class="circle-gauge" style="border-top-color: var(--emerald); color: var(--emerald);">1:1</div>
+      <div id="gauge-rr-circle" class="circle-gauge" style="border-top-color: var(--emerald); color: var(--emerald);">1:1</div>
       <div class="gauge-info">
         <div class="label">MONDAY RR</div>
-        <div class="val">STRICT 1:1</div>
+        <div id="gauge-rr-val" class="val">1:1</div>
       </div>
     </div>
     <div class="gauge-card">
-      <div class="circle-gauge" style="border-top-color: var(--violet); color: var(--violet);">01</div>
+      <div id="gauge-trade-circle" class="circle-gauge" style="border-top-color: var(--violet); color: var(--violet);">01</div>
       <div class="gauge-info">
         <div class="label">TRADE CEILING</div>
-        <div class="val">1 TRADE</div>
+        <div id="gauge-trade-val" class="val">1 TRADE</div>
       </div>
     </div>
     <div class="gauge-card">
-      <div class="circle-gauge">04</div>
+      <div id="gauge-ops-circle" class="circle-gauge">04</div>
       <div class="gauge-info">
         <div class="label">ST OPS QUEUE</div>
-        <div class="val">ACTIVE</div>
+        <div id="gauge-ops-val" class="val">ACTIVE</div>
       </div>
     </div>
     <div class="gauge-card">
-      <div class="circle-gauge" style="border-top-color: var(--amber); color: var(--amber);">7D</div>
+      <div id="gauge-deadline-circle" class="circle-gauge" style="border-top-color: var(--amber); color: var(--amber);">7D</div>
       <div class="gauge-info">
         <div class="label">DEADLINES</div>
-        <div class="val">STABLE</div>
+        <div id="gauge-deadline-val" class="val">STABLE</div>
       </div>
     </div>
   </div>
@@ -402,7 +419,6 @@
       <span class="panel-tag">CME_MINI:NQ1! · REAL-TIME CANDLES</span>
     </div>
     <div class="chart-container-box">
-      <!-- TradingView Widget BEGIN -->
       <div class="tradingview-widget-container" style="height:100%;width:100%">
         <div id="tradingview_chart" style="height:100%;width:100%"></div>
         <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
@@ -426,7 +442,6 @@
           });
         </script>
       </div>
-      <!-- TradingView Widget END -->
     </div>
   </div>
 
@@ -436,25 +451,8 @@
         <span class="panel-title">02 · OPERATIONAL TIMELINE</span>
         <span class="panel-tag">PACIFIC STANDARD TIME</span>
       </div>
-      <div class="item-row emerald">
-        <div class="item-title">NY AM Futures Execution Window (MNQ / ES)</div>
-        <div class="item-meta">06:30 AM – 08:00 AM PT · Monday target: Strictly 1:1. 1R risk cap ($200–$250).</div>
-      </div>
-      <div class="item-row">
-        <div class="item-title">Trade Journal & Performance Log</div>
-        <div class="item-meta">08:00 AM – 08:45 AM PT · Log metrics, execution discipline, and HTF reactions.</div>
-      </div>
-      <div class="item-row violet">
-        <div class="item-title">STMicroelectronics Business Operations Window</div>
-        <div class="item-meta">09:15 AM – 04:30 PM PT · Project trackers, syncs, and operational deliverables.</div>
-      </div>
-      <div class="item-row">
-        <div class="item-title">Physical Training Block & Recovery Walk</div>
-        <div class="item-meta">05:00 PM – 06:30 PM PT · Compound strength, hydration, and clean nutrition reset.</div>
-      </div>
-      <div class="item-row">
-        <div class="item-title">KAIROS Evening Debrief & Recovery Protocols</div>
-        <div class="item-meta">08:30 PM PT · Magnesium glycinate, reading cue, and brain dump closeout.</div>
+      <div id="timeline-list">
+        <!-- Populated dynamically via brief.json -->
       </div>
     </div>
 
@@ -463,17 +461,8 @@
         <span class="panel-title">03 · MACRO & PROTOCOL RADAR</span>
         <span class="panel-tag">HIGH-SIGNAL REVIEWS</span>
       </div>
-      <div class="item-row emerald">
-        <div class="item-title">Market Catalysts</div>
-        <div class="item-meta">High-impact news check: Allow opening spread to settle before engaging.</div>
-      </div>
-      <div class="item-row amber">
-        <div class="item-title">Academic & Graduation Runway</div>
-        <div class="item-meta">UCSB Econ & Accounting final quarter · Canvas queues clear.</div>
-      </div>
-      <div class="item-row">
-        <div class="item-title">Night Protocols</div>
-        <div class="item-meta">Magnesium ~1 hr before bed · 10m Seneca/Musashi reading under warm light.</div>
+      <div id="radar-list">
+        <!-- Populated dynamically via brief.json -->
       </div>
     </div>
   </div>
@@ -493,6 +482,69 @@
   }
   setInterval(updateClock, 1000);
   updateClock();
+
+  async function loadBriefData() {
+    try {
+      const response = await fetch('brief.json?t=' + new Date().getTime());
+      if (!response.ok) return;
+      const data = await response.json();
+
+      if (data.date) document.getElementById('telemetry-date').innerText = data.date.toUpperCase();
+      if (data.quote) document.getElementById('brief-quote').innerText = `"${data.quote}"`;
+      if (data.author) document.getElementById('brief-author').innerText = `— ${data.author}`;
+      if (data.heroText) document.getElementById('brief-desc').innerText = data.heroText;
+
+      if (data.gauges) {
+        if (data.gauges.mondayRR) {
+          document.getElementById('gauge-rr-circle').innerText = data.gauges.mondayRR;
+          document.getElementById('gauge-rr-val').innerText = data.gauges.mondayRR;
+        }
+        if (data.gauges.tradeCeiling) {
+          document.getElementById('gauge-trade-circle').innerText = data.gauges.tradeCeiling;
+          document.getElementById('gauge-trade-val').innerText = `${data.gauges.tradeCeiling} TRADE`;
+        }
+        if (data.gauges.stOps) {
+          document.getElementById('gauge-ops-circle').innerText = data.gauges.stOps;
+          document.getElementById('gauge-ops-val').innerText = "ACTIVE";
+        }
+        if (data.gauges.deadlines) {
+          document.getElementById('gauge-deadline-circle').innerText = data.gauges.deadlines;
+          document.getElementById('gauge-deadline-val').innerText = "STABLE";
+        }
+      }
+
+      if (data.timeline && Array.isArray(data.timeline)) {
+        const timelineEl = document.getElementById('timeline-list');
+        timelineEl.innerHTML = '';
+        data.timeline.forEach(item => {
+          const div = document.createElement('div');
+          div.className = `item-row ${item.color || ''}`;
+          div.innerHTML = `
+            <div class="item-title">${item.title}</div>
+            <div class="item-meta">${item.meta}</div>
+          `;
+          timelineEl.appendChild(div);
+        });
+      }
+
+      if (data.radar && Array.isArray(data.radar)) {
+        const radarEl = document.getElementById('radar-list');
+        radarEl.innerHTML = '';
+        data.radar.forEach(item => {
+          const div = document.createElement('div');
+          div.className = `item-row ${item.color || ''}`;
+          div.innerHTML = `
+            <div class="item-title">${item.title}</div>
+            <div class="item-meta">${item.meta}</div>
+          `;
+          radarEl.appendChild(div);
+        });
+      }
+    } catch (err) {
+      console.warn("Using offline fallback parameters:", err);
+    }
+  }
+  loadBriefData();
 
   const canvas = document.getElementById('stars-canvas');
   const ctx = canvas.getContext('2d');
