@@ -1,0 +1,58 @@
+name: Daily KAIROS Morning Update
+
+on:
+  schedule:
+    # Runs at 14:00 UTC (06:00 AM PT / 07:00 AM PDT) every day
+    - cron: '0 14 * * *'
+  workflow_dispatch: # Allows manual trigger anytime from the Actions tab
+
+jobs:
+  update-brief:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Update Daily Brief
+        run: |
+          python - << 'EOF'
+          import json
+          from datetime import datetime
+          import pytz
+
+          pt = pytz.timezone('America/Los_Angeles')
+          now = datetime.now(pt)
+          is_monday = (now.weekday() == 0)
+
+          try:
+              with open('brief.json', 'r') as f:
+                  data = json.load(f)
+          except Exception:
+              data = {}
+
+          data['date'] = now.strftime('%A, %b %d')
+          if is_monday:
+              data['gauges']['mondayRR'] = "STRICT 1:1"
+              data['timeline'][0]['meta'] = "06:30 AM – 08:00 AM PT · MONDAY MANDATE: Strictly 1:1 RR target. 1R risk cap ($200–$250)."
+          else:
+              data['gauges']['mondayRR'] = "OPEN"
+              data['timeline'][0]['meta'] = "06:30 AM – 08:00 AM PT · Standard execution. 1R risk cap ($200–$250)."
+
+          with open('brief.json', 'w') as f:
+              json.dump(data, f, indent=2)
+          EOF
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "KAIROS Autonomous"
+          git config --global user.email "kairos@hasansamy.me"
+          git add brief.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "KAIROS: Synced morning briefing [$(date '+%Y-%m-%d')]" && git push)
