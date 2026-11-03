@@ -1,10 +1,10 @@
 {
-  "date": "Tuesday, Nov 3",
+  "date": "Tuesday, Nov 03",
   "quote": "Whatever the Way, the master of strategy does not appear fast. Really skillful people never get out of time, are always deliberate, and never appear busy.",
   "author": "Miyamoto Musashi",
   "heroText": "NY AM execution window active. Real-time NQ/ES feed locked, STMicroelectronics operations active, and UCSB final quarter on track.",
   "gauges": {
-    "mondayRR": "1:1",
+    "mondayRR": "OPEN",
     "tradeCeiling": "01",
     "stOps": "04",
     "deadlines": "7D"
@@ -12,27 +12,27 @@
   "timeline": [
     {
       "title": "NY AM Futures Execution Window (MNQ / ES)",
-      "meta": "06:30 AM – 08:00 AM PT · Strict 1R risk cap ($200–$250).",
+      "meta": "06:30 AM \u2013 08:00 AM PT \u00b7 Standard execution. 1R risk cap ($200\u2013$250).",
       "color": "emerald"
     },
     {
       "title": "Trade Journal & Performance Log",
-      "meta": "08:00 AM – 08:45 AM PT · Log metrics, execution discipline, and HTF reactions.",
+      "meta": "08:00 AM \u2013 08:45 AM PT \u00b7 Log metrics, execution discipline, and HTF reactions.",
       "color": "cyan"
     },
     {
       "title": "STMicroelectronics Operations Window",
-      "meta": "09:15 AM – 04:30 PM PT · Project trackers and deliverables.",
+      "meta": "09:15 AM \u2013 04:30 PM PT \u00b7 Project trackers and deliverables.",
       "color": "violet"
     },
     {
       "title": "Physical Training Block & Recovery Walk",
-      "meta": "05:00 PM – 06:30 PM PT · Heavy compound lifts, cardio reset, hydration.",
+      "meta": "05:00 PM \u2013 06:30 PM PT \u00b7 Heavy compound lifts, cardio reset, hydration.",
       "color": "cyan"
     },
     {
       "title": "KAIROS Evening Debrief & Protocols",
-      "meta": "08:30 PM PT · Magnesium glycinate, reading cue, and brain dump.",
+      "meta": "08:30 PM PT \u00b7 Magnesium glycinate, reading cue, and brain dump.",
       "color": "cyan"
     }
   ],
@@ -44,12 +44,12 @@
     },
     {
       "title": "Academic Runway",
-      "meta": "UCSB Econ & Accounting final quarter · Canvas queues clear.",
+      "meta": "UCSB Econ & Accounting final quarter \u00b7 Canvas queues clear.",
       "color": "amber"
     },
     {
       "title": "Night Protocols",
-      "meta": "Magnesium ~1 hr before bed · 10m Seneca/Musashi reading under warm light.",
+      "meta": "Magnesium ~1 hr before bed \u00b7 10m Seneca/Musashi reading under warm light.",
       "color": "cyan"
     }
   ]
