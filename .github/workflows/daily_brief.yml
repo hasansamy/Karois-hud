@@ -26,9 +26,9 @@ jobs:
           python - << 'EOF'
           import json
           from datetime import datetime
-          import pytz
+          from zoneinfo import ZoneInfo
 
-          pt = pytz.timezone('America/Los_Angeles')
+          pt = ZoneInfo('America/Los_Angeles')
           now = datetime.now(pt)
           is_monday = (now.weekday() == 0)
 
@@ -39,8 +39,13 @@ jobs:
               data = {}
 
           data['date'] = now.strftime('%A, %b %d')
+          if 'gauges' not in data:
+              data['gauges'] = {}
+          if 'timeline' not in data:
+              data['timeline'] = [{}]
+
           if is_monday:
-              data['gauges']['mondayRR'] = "STRICT 1:1"
+              data['gauges']['mondayRR'] = "1:1"
               data['timeline'][0]['meta'] = "06:30 AM – 08:00 AM PT · MONDAY MANDATE: Strictly 1:1 RR target. 1R risk cap ($200–$250)."
           else:
               data['gauges']['mondayRR'] = "OPEN"
