@@ -6,7 +6,7 @@
 <title>KAIROS · Operational HUD</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #02040a;
@@ -15,8 +15,18 @@
     --violet: #a08cff;
     --amber: #ffb347;
     --crimson: #ff5a5a;
-    --hud-glass: rgba(6, 14, 28, 0.78);
+    --hud-glass: rgba(6, 14, 28, 0.82);
     --hud-border: rgba(79, 216, 255, 0.22);
+    --accent: #4fd8ff;
+    --font-heading: 'Orbitron', sans-serif;
+  }
+
+  body.pm-mode {
+    --bg: #06070a;
+    --accent: #ffb347;
+    --hud-glass: rgba(14, 15, 20, 0.88);
+    --hud-border: rgba(255, 179, 71, 0.2);
+    --font-heading: 'Cinzel', serif;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,6 +39,7 @@
     position: relative;
     user-select: none;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   .crt-overlay {
@@ -36,7 +47,7 @@
     position: fixed;
     inset: 0;
     background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-                radial-gradient(circle, transparent 60%, rgba(0,0,0,0.85) 100%);
+                radial-gradient(circle, transparent 60%, rgba(0,0,0,0.88) 100%);
     background-size: 100% 4px, 100% 100%;
     z-index: 50;
   }
@@ -63,9 +74,10 @@
     position: fixed;
     width: 28px;
     height: 28px;
-    border: 2px solid var(--cyan);
+    border: 2px solid var(--accent);
     pointer-events: none;
     z-index: 60;
+    transition: border-color 0.4s ease;
   }
   .bracket-tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
   .bracket-tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
@@ -85,7 +97,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--cyan);
+    color: var(--accent);
     font-weight: 700;
     letter-spacing: 2px;
   }
@@ -97,12 +109,48 @@
     box-shadow: 0 0 10px var(--emerald);
     animation: pulse 2s infinite ease-in-out;
   }
+  body.pm-mode .status-dot {
+    background: var(--amber);
+    box-shadow: 0 0 10px var(--amber);
+  }
+
+  .mode-switch {
+    display: flex;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--hud-border);
+    border-radius: 20px;
+    padding: 3px;
+    gap: 4px;
+  }
+  .toggle-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #7997b8;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 1px;
+  }
+  .toggle-btn.active {
+    background: var(--accent);
+    color: #02040a;
+    box-shadow: 0 0 14px var(--accent);
+  }
+
   .clock {
-    color: var(--cyan);
+    color: var(--accent);
     letter-spacing: 1px;
     font-size: 14px;
     font-weight: 600;
     text-shadow: 0 0 8px rgba(79, 216, 255, 0.6);
+  }
+  body.pm-mode .clock {
+    text-shadow: 0 0 8px rgba(255, 179, 71, 0.6);
   }
 
   .hero-core {
@@ -114,60 +162,28 @@
     border-radius: 8px;
     padding: 24px 32px;
     backdrop-filter: blur(14px);
-    box-shadow: inset 0 0 30px rgba(79, 216, 255, 0.05);
-  }
-  .core-visual {
-    position: relative;
-    width: 130px;
-    height: 130px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .ring-outer {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    border: 2px dashed var(--cyan);
-    border-radius: 50%;
-    animation: rotateClockwise 22s linear infinite;
-  }
-  .ring-inner {
-    position: absolute;
-    width: 84px;
-    height: 84px;
-    border: 2px solid var(--violet);
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: rotateCounter 12s linear infinite;
-  }
-  .core-pulse {
-    width: 28px;
-    height: 28px;
-    background: radial-gradient(circle, #fff, var(--cyan));
-    border-radius: 50%;
-    box-shadow: 0 0 25px var(--cyan);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+    transition: border-color 0.4s ease;
   }
   .hero-text h1 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: var(--font-heading);
     font-size: 24px;
     letter-spacing: 2px;
     color: #fff;
-    text-shadow: 0 0 14px rgba(79, 216, 255, 0.6);
+    text-shadow: 0 0 14px var(--accent);
   }
   .hero-quote {
     font-size: 16px;
     margin-top: 10px;
     color: #e4f2fb;
-    max-width: 720px;
+    max-width: 760px;
     line-height: 1.45;
     font-style: italic;
   }
   .hero-author {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
-    color: var(--cyan);
+    color: var(--accent);
     margin-top: 4px;
     letter-spacing: 1px;
   }
@@ -175,7 +191,7 @@
     font-size: 14px;
     margin-top: 10px;
     color: #9cb5cf;
-    max-width: 720px;
+    max-width: 760px;
     line-height: 1.4;
   }
   .hero-chips {
@@ -195,6 +211,45 @@
   .chip-cyan { background: rgba(79, 216, 255, 0.12); border: 1px solid var(--cyan); color: var(--cyan); }
   .chip-emerald { background: rgba(0, 255, 136, 0.12); border: 1px solid var(--emerald); color: var(--emerald); }
   .chip-violet { background: rgba(160, 140, 255, 0.12); border: 1px solid var(--violet); color: var(--violet); }
+  .chip-amber { background: rgba(255, 179, 71, 0.12); border: 1px solid var(--amber); color: var(--amber); }
+
+  .core-visual {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ring-outer {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 2px dashed var(--accent);
+    border-radius: 50%;
+    animation: rotateClockwise 22s linear infinite;
+  }
+  .ring-inner {
+    position: absolute;
+    width: 84px;
+    height: 84px;
+    border: 2px solid var(--violet);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: rotateCounter 12s linear infinite;
+  }
+  body.pm-mode .ring-inner {
+    border-color: var(--amber);
+    border-top-color: transparent;
+  }
+  .core-pulse {
+    width: 28px;
+    height: 28px;
+    background: radial-gradient(circle, #fff, var(--accent));
+    border-radius: 50%;
+    box-shadow: 0 0 25px var(--accent);
+  }
 
   .gauge-grid {
     display: grid;
@@ -209,20 +264,19 @@
     display: flex;
     align-items: center;
     gap: 14px;
+    transition: border-color 0.4s ease;
   }
   .circle-gauge {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    border: 3px solid rgba(79, 216, 255, 0.2);
-    border-top-color: var(--cyan);
+    border: 3px solid rgba(255, 255, 255, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Orbitron', sans-serif;
+    font-family: var(--font-heading);
     font-size: 12px;
     font-weight: 700;
-    color: var(--cyan);
     flex-shrink: 0;
     text-align: center;
   }
@@ -231,9 +285,10 @@
     font-size: 10px;
     color: #6d88a8;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   .gauge-info .val {
-    font-family: 'Orbitron', sans-serif;
+    font-family: var(--font-heading);
     font-size: 15px;
     color: #fff;
     margin-top: 2px;
@@ -246,27 +301,28 @@
     padding: 18px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     position: relative;
+    transition: all 0.4s ease;
   }
   .chart-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(79, 216, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 10px;
     margin-bottom: 14px;
   }
   .chart-title {
-    font-family: 'Orbitron', sans-serif;
+    font-family: var(--font-heading);
     font-size: 14px;
     letter-spacing: 1.5px;
-    color: var(--cyan);
+    color: var(--accent);
   }
   .chart-container-box {
     width: 100%;
-    height: 460px;
+    height: 480px;
     border-radius: 6px;
     overflow: hidden;
-    border: 1px solid rgba(79, 216, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .grid-layout {
@@ -281,24 +337,21 @@
     padding: 20px;
     position: relative;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    transition: border-color 0.2s ease;
-  }
-  .panel:hover {
-    border-color: rgba(79, 216, 255, 0.5);
+    transition: border-color 0.4s ease;
   }
   .panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(79, 216, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 10px;
     margin-bottom: 14px;
   }
   .panel-title {
-    font-family: 'Orbitron', sans-serif;
+    font-family: var(--font-heading);
     font-size: 14px;
     letter-spacing: 1.5px;
-    color: var(--cyan);
+    color: var(--accent);
   }
   .panel-tag {
     font-family: 'JetBrains Mono', monospace;
@@ -307,16 +360,24 @@
   }
 
   .item-row {
-    padding: 10px 12px;
+    padding: 12px 14px;
     background: rgba(255, 255, 255, 0.02);
-    border-left: 3px solid var(--cyan);
-    margin-bottom: 8px;
+    border-left: 3px solid var(--accent);
+    margin-bottom: 10px;
     border-radius: 0 4px 4px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
   .item-row.emerald { border-left-color: var(--emerald); }
   .item-row.violet { border-left-color: var(--violet); }
   .item-row.amber { border-left-color: var(--amber); }
 
+  .item-body {
+    flex-grow: 1;
+    padding-right: 12px;
+  }
   .item-title {
     font-size: 15px;
     font-weight: 700;
@@ -326,9 +387,40 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     color: #7997b8;
-    margin-top: 3px;
-    line-height: 1.35;
+    margin-top: 4px;
+    line-height: 1.4;
   }
+
+  /* Slick Dismiss / Unsubscribe X Button */
+  .dismiss-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #6482a4;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+  .dismiss-btn:hover {
+    border-color: var(--crimson);
+    color: var(--crimson);
+    background: rgba(255, 90, 90, 0.1);
+    box-shadow: 0 0 8px rgba(255, 90, 90, 0.4);
+    transform: scale(1.1);
+  }
+
+  .pm-view-only { display: none; }
+  .am-view-only { display: block; }
+  body.pm-mode .am-view-only { display: none; }
+  body.pm-mode .pm-view-only { display: block; }
 
   @keyframes rotateClockwise { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes rotateCounter { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
@@ -340,7 +432,8 @@
     .hero-chips { justify-content: center; }
     .bracket-tl, .bracket-tr, .bracket-bl, .bracket-br { display: none; }
     .hud-container { padding: 16px; }
-    .chart-container-box { height: 350px; }
+    .chart-container-box { height: 380px; }
+    .telemetry-bar { flex-direction: column; gap: 10px; align-items: flex-start; }
   }
 </style>
 </head>
@@ -356,22 +449,34 @@
   <div class="telemetry-bar">
     <div class="status-tag">
       <span class="status-dot"></span>
-      KAIROS · ONLINE
+      <span id="callsign-label">KAIROS · SESSION ACTIVE</span>
     </div>
+    
+    <div class="mode-switch">
+      <button id="btn-am" class="toggle-btn active" onclick="switchMode('am')">AM · SESSION</button>
+      <button id="btn-pm" class="toggle-btn" onclick="switchMode('pm')">PM · DEBRIEF</button>
+    </div>
+
     <div id="live-clock" class="clock">--:--:-- --</div>
     <div id="telemetry-date" class="panel-tag">SYNCING...</div>
   </div>
 
   <div class="hero-core">
     <div class="hero-text">
-      <h1>OPERATIONAL BRIEFING</h1>
+      <h1 id="hero-title">OPERATIONAL BRIEFING</h1>
       <div id="brief-quote" class="hero-quote">"Whatever the Way, the master of strategy does not appear fast. Really skillful people never get out of time, are always deliberate, and never appear busy."</div>
       <div id="brief-author" class="hero-author">— Miyamoto Musashi</div>
-      <p id="brief-desc" class="hero-desc">Telemetry nominal. NY AM window parameters locked, STMicroelectronics operations active, and UCSB graduation runway on schedule.</p>
-      <div class="hero-chips">
-        <span class="chip chip-cyan">CALLSIGN: KAIROS</span>
-        <span id="chip-monday" class="chip chip-emerald">MONDAY: 1:1 RR</span>
-        <span class="chip chip-violet">RISK CAP: 1R</span>
+      <p id="brief-desc" class="hero-desc">NY AM session active. 1 trade max, hard 8:00 AM cutoff, work window from 8am to 6pm, gym and to-do list post-work.</p>
+      
+      <div id="hero-chips" class="hero-chips">
+        <span class="chip chip-cyan am-view-only">CALLSIGN: KAIROS</span>
+        <span class="chip chip-violet am-view-only">RISK CAP: $250 (1R)</span>
+        <span class="chip chip-emerald am-view-only">MON & FRI: 90% TRIM @ 1:1</span>
+        <span class="chip chip-amber am-view-only">CUTOFF: 08:00 AM HARD</span>
+        
+        <span class="chip chip-amber pm-view-only">PHASE: SHUTDOWN</span>
+        <span class="chip chip-violet pm-view-only">COGNITIVE RESET</span>
+        <span class="chip chip-emerald pm-view-only">DEEP RECOVERY</span>
       </div>
     </div>
     <div class="core-visual">
@@ -383,40 +488,39 @@
 
   <div class="gauge-grid">
     <div class="gauge-card">
-      <div id="gauge-rr-circle" class="circle-gauge" style="border-top-color: var(--emerald); color: var(--emerald);">1:1</div>
+      <div id="g1-circle" class="circle-gauge" style="border-color: var(--violet); color: var(--violet);">1R</div>
       <div class="gauge-info">
-        <div class="label">MONDAY RR</div>
-        <div id="gauge-rr-val" class="val">1:1</div>
+        <div id="g1-label" class="label">DAILY RISK CAP</div>
+        <div id="g1-val" class="val">$250 (1R)</div>
       </div>
     </div>
     <div class="gauge-card">
-      <div id="gauge-trade-circle" class="circle-gauge" style="border-top-color: var(--violet); color: var(--violet);">01</div>
+      <div id="g2-circle" class="circle-gauge" style="border-color: var(--cyan); color: var(--cyan);">01</div>
       <div class="gauge-info">
-        <div class="label">TRADE CEILING</div>
-        <div id="gauge-trade-val" class="val">1 TRADE</div>
+        <div id="g2-label" class="label">TRADE CEILING</div>
+        <div id="g2-val" class="val">1 TRADE MAX</div>
       </div>
     </div>
     <div class="gauge-card">
-      <div id="gauge-ops-circle" class="circle-gauge">04</div>
+      <div id="g3-circle" class="circle-gauge" style="border-color: var(--emerald); color: var(--emerald);">90%</div>
       <div class="gauge-info">
-        <div class="label">ST OPS QUEUE</div>
-        <div id="gauge-ops-val" class="val">ACTIVE</div>
+        <div id="g3-label" class="label">MON & FRI RULE</div>
+        <div id="g3-val" class="val">TRIM 90% @ 1:1</div>
       </div>
     </div>
     <div class="gauge-card">
-      <div id="gauge-deadline-circle" class="circle-gauge" style="border-top-color: var(--amber); color: var(--amber);">7D</div>
+      <div id="g4-circle" class="circle-gauge" style="border-color: var(--amber); color: var(--amber);">8AM</div>
       <div class="gauge-info">
-        <div class="label">DEADLINES</div>
-        <div id="gauge-deadline-val" class="val">STABLE</div>
+        <div id="g4-label" class="label">SESSION CUTOFF</div>
+        <div id="g4-val" class="val">08:00 AM HARD</div>
       </div>
     </div>
   </div>
 
-  <!-- Interactive Live TradingView Chart Widget -->
-  <div class="chart-panel">
+  <div class="chart-panel am-view-only">
     <div class="chart-header">
-      <span class="chart-title">01 · LIVE MARKET FEED · NASDAQ FUTURES (NQ1!)</span>
-      <span class="panel-tag">CME_MINI:NQ1! · REAL-TIME CANDLES</span>
+      <span class="chart-title">01 · LIVE MARKET FEED · NASDAQ 100 (1-HOUR)</span>
+      <span class="panel-tag">TIMEFRAME: 1H · LIVE INTERACTIVE FEED</span>
     </div>
     <div class="chart-container-box">
       <div class="tradingview-widget-container" style="height:100%;width:100%">
@@ -425,8 +529,8 @@
         <script type="text/javascript">
           new TradingView.widget({
             "autosize": true,
-            "symbol": "CME_MINI:NQ1!",
-            "interval": "5",
+            "symbol": "NASDAQ:NDX",
+            "interval": "60",
             "timezone": "America/Los_Angeles",
             "theme": "dark",
             "style": "1",
@@ -445,31 +549,54 @@
     </div>
   </div>
 
+  <div class="panel pm-view-only">
+    <div class="panel-header">
+      <span class="panel-title">01 · COGNITIVE DECOMPRESSION & RECOVERY DOCK</span>
+      <span class="panel-tag">PARASYMPATHETIC DOWNSHIFT</span>
+    </div>
+    <div class="item-row amber">
+      <div class="item-body">
+        <div class="item-title">The 2-Minute Physical Brain Dump</div>
+        <div class="item-meta">Unload all unresolved loops, tomorrow's tasks, or mental static onto paper so your mind stops cycling them overnight.</div>
+      </div>
+    </div>
+    <div class="item-row">
+      <div class="item-body">
+        <div class="item-title">Classical Stoic Reading (10–15 Minutes)</div>
+        <div class="item-meta">Seneca (Letters from a Stoic), Musashi (Book of Five Rings), or Tolstoy (Calendar of Wisdom) under warm ambient light. Zero digital screens.</div>
+      </div>
+    </div>
+    <div class="item-row emerald">
+      <div class="item-body">
+        <div class="item-title">Sleep Architecture Non-Negotiables</div>
+        <div class="item-meta">Magnesium glycinate taken 1 hr prior to sleep. Room pitch black and chilled. Phone charging across the room.</div>
+      </div>
+    </div>
+  </div>
+
   <div class="grid-layout">
     <div class="panel">
       <div class="panel-header">
-        <span class="panel-title">02 · OPERATIONAL TIMELINE</span>
+        <span id="panel-timeline-title" class="panel-title">02 · OPERATIONAL TIMELINE</span>
         <span class="panel-tag">PACIFIC STANDARD TIME</span>
       </div>
-      <div id="timeline-list">
-        <!-- Populated dynamically via brief.json -->
-      </div>
+      <div id="timeline-list"></div>
     </div>
 
     <div class="panel">
       <div class="panel-header">
-        <span class="panel-title">03 · MACRO & PROTOCOL RADAR</span>
+        <span id="panel-radar-title" class="panel-title">03 · ACTIVE INBOX & PROTOCOL RADAR</span>
         <span class="panel-tag">HIGH-SIGNAL REVIEWS</span>
       </div>
-      <div id="radar-list">
-        <!-- Populated dynamically via brief.json -->
-      </div>
+      <div id="radar-list"></div>
     </div>
   </div>
 
 </div>
 
 <script>
+  let currentMode = 'am';
+
   function updateClock() {
     const now = new Date();
     let hours = now.getHours();
@@ -483,68 +610,215 @@
   setInterval(updateClock, 1000);
   updateClock();
 
-  async function loadBriefData() {
-    try {
-      const response = await fetch('brief.json?t=' + new Date().getTime());
-      if (!response.ok) return;
-      const data = await response.json();
-
-      if (data.date) document.getElementById('telemetry-date').innerText = data.date.toUpperCase();
-      if (data.quote) document.getElementById('brief-quote').innerText = `"${data.quote}"`;
-      if (data.author) document.getElementById('brief-author').innerText = `— ${data.author}`;
-      if (data.heroText) document.getElementById('brief-desc').innerText = data.heroText;
-
-      if (data.gauges) {
-        if (data.gauges.mondayRR) {
-          document.getElementById('gauge-rr-circle').innerText = data.gauges.mondayRR;
-          document.getElementById('gauge-rr-val').innerText = data.gauges.mondayRR;
-        }
-        if (data.gauges.tradeCeiling) {
-          document.getElementById('gauge-trade-circle').innerText = data.gauges.tradeCeiling;
-          document.getElementById('gauge-trade-val').innerText = `${data.gauges.tradeCeiling} TRADE`;
-        }
-        if (data.gauges.stOps) {
-          document.getElementById('gauge-ops-circle').innerText = data.gauges.stOps;
-          document.getElementById('gauge-ops-val').innerText = "ACTIVE";
-        }
-        if (data.gauges.deadlines) {
-          document.getElementById('gauge-deadline-circle').innerText = data.gauges.deadlines;
-          document.getElementById('gauge-deadline-val').innerText = "STABLE";
-        }
-      }
-
-      if (data.timeline && Array.isArray(data.timeline)) {
-        const timelineEl = document.getElementById('timeline-list');
-        timelineEl.innerHTML = '';
-        data.timeline.forEach(item => {
-          const div = document.createElement('div');
-          div.className = `item-row ${item.color || ''}`;
-          div.innerHTML = `
-            <div class="item-title">${item.title}</div>
-            <div class="item-meta">${item.meta}</div>
-          `;
-          timelineEl.appendChild(div);
-        });
-      }
-
-      if (data.radar && Array.isArray(data.radar)) {
-        const radarEl = document.getElementById('radar-list');
-        radarEl.innerHTML = '';
-        data.radar.forEach(item => {
-          const div = document.createElement('div');
-          div.className = `item-row ${item.color || ''}`;
-          div.innerHTML = `
-            <div class="item-title">${item.title}</div>
-            <div class="item-meta">${item.meta}</div>
-          `;
-          radarEl.appendChild(div);
-        });
-      }
-    } catch (err) {
-      console.warn("Using offline fallback parameters:", err);
+  function dismissItem(btn, senderKey) {
+    const row = btn.closest('.item-row');
+    row.style.opacity = '0';
+    row.style.transform = 'translateX(20px)';
+    setTimeout(() => {
+      row.remove();
+    }, 300);
+    if (senderKey) {
+      let dismissed = JSON.parse(localStorage.getItem('kairos_dismissed_emails') || '[]');
+      dismissed.push(senderKey);
+      localStorage.setItem('kairos_dismissed_emails', JSON.stringify(dismissed));
     }
   }
-  loadBriefData();
+
+  function switchMode(mode) {
+    currentMode = mode;
+    localStorage.setItem('kairos_mode', mode);
+
+    const btnAm = document.getElementById('btn-am');
+    const btnPm = document.getElementById('btn-pm');
+
+    if (mode === 'pm') {
+      document.body.classList.add('pm-mode');
+      btnPm.classList.add('active');
+      btnAm.classList.remove('active');
+      document.getElementById('callsign-label').innerText = 'KAIROS · EVENING DEBRIEF';
+      document.getElementById('hero-title').innerText = 'EVENING SHUTDOWN & DEBRIEF';
+      document.getElementById('brief-desc').innerText = 'Session closed. Engine idle. Cognitive decompression active, magnesium protocol locked, and nervous system downshifted.';
+      
+      document.getElementById('g1-circle').innerText = 'MAG';
+      document.getElementById('g1-circle').style.borderColor = 'var(--emerald)';
+      document.getElementById('g1-circle').style.color = 'var(--emerald)';
+      document.getElementById('g1-label').innerText = 'RECOVERY PROTOCOL';
+      document.getElementById('g1-val').innerText = 'GLYCINATE TAKEN';
+
+      document.getElementById('g2-circle').innerText = '15M';
+      document.getElementById('g2-circle').style.borderColor = 'var(--amber)';
+      document.getElementById('g2-circle').style.color = 'var(--amber)';
+      document.getElementById('g2-label').innerText = 'PHYSICAL READING';
+      document.getElementById('g2-val').innerText = 'SENECA / MUSASHI';
+
+      document.getElementById('g3-circle').innerText = 'OFF';
+      document.getElementById('g3-circle').style.borderColor = 'var(--violet)';
+      document.getElementById('g3-circle').style.color = 'var(--violet)';
+      document.getElementById('g3-label').innerText = 'DIGITAL SCREENS';
+      document.getElementById('g3-val').innerText = 'ACROSS ROOM';
+
+      document.getElementById('g4-circle').innerText = '10:30';
+      document.getElementById('g4-circle').style.borderColor = 'var(--amber)';
+      document.getElementById('g4-circle').style.color = 'var(--amber)';
+      document.getElementById('g4-label').innerText = 'TARGET LIGHTS OUT';
+      document.getElementById('g4-val').innerText = '10:30 PM PT';
+
+      renderPMPanels();
+    } else {
+      document.body.classList.remove('pm-mode');
+      btnAm.classList.add('active');
+      btnPm.classList.remove('active');
+      document.getElementById('callsign-label').innerText = 'KAIROS · SESSION ACTIVE';
+      document.getElementById('hero-title').innerText = 'OPERATIONAL BRIEFING';
+      document.getElementById('brief-desc').innerText = 'NY AM session active. 1 trade max, hard 8:00 AM cutoff, work window from 8am to 6pm, gym and to-do list post-work.';
+      
+      document.getElementById('g1-circle').innerText = '1R';
+      document.getElementById('g1-circle').style.borderColor = 'var(--violet)';
+      document.getElementById('g1-circle').style.color = 'var(--violet)';
+      document.getElementById('g1-label').innerText = 'DAILY RISK CAP';
+      document.getElementById('g1-val').innerText = '$250 (1R)';
+
+      document.getElementById('g2-circle').innerText = '01';
+      document.getElementById('g2-circle').style.borderColor = 'var(--cyan)';
+      document.getElementById('g2-circle').style.color = 'var(--cyan)';
+      document.getElementById('g2-label').innerText = 'TRADE CEILING';
+      document.getElementById('g2-val').innerText = '1 TRADE MAX';
+
+      document.getElementById('g3-circle').innerText = '90%';
+      document.getElementById('g3-circle').style.borderColor = 'var(--emerald)';
+      document.getElementById('g3-circle').style.color = 'var(--emerald)';
+      document.getElementById('g3-label').innerText = 'MON & FRI RULE';
+      document.getElementById('g3-val').innerText = 'TRIM 90% @ 1:1';
+
+      document.getElementById('g4-circle').innerText = '8AM';
+      document.getElementById('g4-circle').style.borderColor = 'var(--amber)';
+      document.getElementById('g4-circle').style.color = 'var(--amber)';
+      document.getElementById('g4-label').innerText = 'SESSION CUTOFF';
+      document.getElementById('g4-val').innerText = '08:00 AM HARD';
+
+      renderAMPanels();
+    }
+  }
+
+  function renderAMPanels() {
+    document.getElementById('panel-timeline-title').innerText = '02 · OPERATIONAL TIMELINE';
+    document.getElementById('panel-radar-title').innerText = '03 · INBOX & CATALYST RADAR';
+
+    document.getElementById('timeline-list').innerHTML = `
+      <div class="item-row emerald">
+        <div class="item-body">
+          <div class="item-title">NY AM Futures Session (MNQ / NQ)</div>
+          <div class="item-meta">06:30 AM – 08:00 AM PT · Hard 8:00 AM cutoff. 1 trade max, $250 (1R) risk cap. Mon/Fri: Trim 90% at 1:1, runner runs.</div>
+        </div>
+      </div>
+      <div class="item-row violet">
+        <div class="item-body">
+          <div class="item-title">Work Window</div>
+          <div class="item-meta">08:00 AM – 06:00 PM PT · Focused execution, project deliverables, and operational work.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-body">
+          <div class="item-title">Hypertrophy Training Block (Gym)</div>
+          <div class="item-meta">06:00 PM – 07:30 PM PT · Heavy compound strength, training split, and post-workout hydration.</div>
+        </div>
+      </div>
+      <div class="item-row amber">
+        <div class="item-body">
+          <div class="item-title">Evening Recovery & To-Do List Clear</div>
+          <div class="item-meta">07:30 PM – 10:30 PM PT · Wrap remaining tasks, 8:30 PM debrief, magnesium & Seneca/Musashi reading.</div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('radar-list').innerHTML = `
+      <div class="item-row emerald">
+        <div class="item-body">
+          <div class="item-title">Tempo Trades · Market Outlook</div>
+          <div class="item-meta">Tech earnings impact analysis & weekly prep overview.</div>
+        </div>
+        <button class="dismiss-btn" title="Dismiss / Unsubscribe" onclick="dismissItem(this, 'tempotrades')">✕</button>
+      </div>
+      <div class="item-row violet">
+        <div class="item-body">
+          <div class="item-title">SIM TRAXX · Assetto Corsa GMR+</div>
+          <div class="item-meta">Mod build updates & vehicle track pack notification.</div>
+        </div>
+        <button class="dismiss-btn" title="Dismiss / Unsubscribe" onclick="dismissItem(this, 'simtraxx')">✕</button>
+      </div>
+      <div class="item-row amber">
+        <div class="item-body">
+          <div class="item-title">RED FOLDER CATALYSTS</div>
+          <div class="item-meta">Only High-Impact Red Folder news monitored. Clean session when empty.</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderPMPanels() {
+    document.getElementById('panel-timeline-title').innerText = '02 · EVENING DECOMPRESSION TIMELINE';
+    document.getElementById('panel-radar-title').innerText = '03 · TOMORROW\'S CATALYST RADAR';
+
+    document.getElementById('timeline-list').innerHTML = `
+      <div class="item-row amber">
+        <div class="item-body">
+          <div class="item-title">07:30 PM – Close Daily Work & Tasks</div>
+          <div class="item-meta">Close all laptop tabs, wrap remaining tasks, and declare work closed for the night.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-body">
+          <div class="item-title">08:30 PM – KAIROS Debrief & Brain Dump</div>
+          <div class="item-meta">Review 8:30 PM prompt notification. 2-minute physical brain dump on paper. Magnesium taken.</div>
+        </div>
+      </div>
+      <div class="item-row emerald">
+        <div class="item-body">
+          <div class="item-title">09:30 PM – 10:15 PM – Physical Book Reading</div>
+          <div class="item-meta">10–15 minutes with Seneca, Musashi, or Tolstoy under low amber light. Taper all hydration.</div>
+        </div>
+      </div>
+      <div class="item-row violet">
+        <div class="item-body">
+          <div class="item-title">10:30 PM – Complete Sleep Blackout</div>
+          <div class="item-meta">Phone charging across the room. Room chilled. 4-7-8 breathing downshift to sleep.</div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('radar-list').innerHTML = `
+      <div class="item-row emerald">
+        <div class="item-body">
+          <div class="item-title">Tomorrow's AM Red Folder Radar</div>
+          <div class="item-meta">Filter locked: Only High-Impact Red Folder releases displayed. 1 trade max, $250 risk ceiling.</div>
+        </div>
+      </div>
+      <div class="item-row amber">
+        <div class="item-body">
+          <div class="item-title">Nervous System Reset</div>
+          <div class="item-meta">Two physiological sighs. Cool room, total darkness, zero blue light exposure in the final 45 minutes.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-body">
+          <div class="item-title">Mindset Perspective</div>
+          <div class="item-meta">Today's ledger is balanced and closed. Detach completely from outcomes and recharge cleanly.</div>
+        </div>
+      </div>
+    `;
+  }
+
+  const savedMode = localStorage.getItem('kairos_mode');
+  if (savedMode) {
+    switchMode(savedMode);
+  } else {
+    const currentHour = new Date().getHours();
+    if (currentHour >= 17 || currentHour < 5) {
+      switchMode('pm');
+    } else {
+      switchMode('am');
+    }
+  }
 
   const canvas = document.getElementById('stars-canvas');
   const ctx = canvas.getContext('2d');
@@ -569,8 +843,8 @@
 
   function renderStars() {
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = 'rgba(79, 216, 255, 0.6)';
-    ctx.strokeStyle = 'rgba(79, 216, 255, 0.08)';
+    ctx.fillStyle = currentMode === 'pm' ? 'rgba(255, 179, 71, 0.45)' : 'rgba(79, 216, 255, 0.6)';
+    ctx.strokeStyle = currentMode === 'pm' ? 'rgba(255, 179, 71, 0.06)' : 'rgba(79, 216, 255, 0.08)';
 
     for (let i = 0; i < stars.length; i++) {
       let s = stars[i];
