@@ -9,19 +9,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,700;1,600&family=JetBrains+Mono:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #eef4f9;
-    --bg-mesh: radial-gradient(at 10% 20%, rgba(56, 189, 248, 0.16) 0px, transparent 50%),
-               radial-gradient(at 90% 10%, rgba(251, 191, 36, 0.14) 0px, transparent 50%),
-               radial-gradient(at 50% 90%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+    /* Morning Hologram (Optic Light / Neon Cyan / Solar Gold) */
+    --bg-mesh: radial-gradient(at 10% 20%, rgba(56, 189, 248, 0.18) 0px, transparent 50%),
+               radial-gradient(at 90% 10%, rgba(251, 191, 36, 0.16) 0px, transparent 50%),
+               radial-gradient(at 50% 90%, rgba(99, 102, 241, 0.14) 0px, transparent 50%),
                #edf3f8;
-    --glass: rgba(255, 255, 255, 0.82);
-    --glass-card: rgba(255, 255, 255, 0.94);
-    --border: rgba(14, 165, 233, 0.28);
-    --border-subtle: rgba(15, 23, 42, 0.08);
+    --glass: rgba(255, 255, 255, 0.84);
+    --glass-card: rgba(255, 255, 255, 0.95);
+    --border: rgba(14, 165, 233, 0.32);
+    --border-subtle: rgba(15, 23, 42, 0.1);
     --primary: #0284c7;
     --primary-glow: rgba(2, 132, 199, 0.35);
     --text-main: #09131f;
-    --text-muted: #475569;
+    --text-muted: #334155;
     --text-sub: #64748b;
     --accent-emerald: #059669;
     --accent-amber: #d97706;
@@ -32,15 +32,15 @@
     --shadow-hologram: 0 16px 40px -8px rgba(14, 165, 233, 0.18), 0 2px 10px rgba(0,0,0,0.03);
   }
 
+  /* Night Debrief Mode (Stealth Midnight Obsidian / Warm Amber Ember) */
   body.pm-mode {
-    --bg: #03060a;
-    --bg-mesh: radial-gradient(at 20% 20%, rgba(245, 158, 11, 0.12) 0px, transparent 50%),
-               radial-gradient(at 80% 80%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
+    --bg-mesh: radial-gradient(at 20% 20%, rgba(245, 158, 11, 0.15) 0px, transparent 50%),
+               radial-gradient(at 80% 80%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
                #020408;
-    --glass: rgba(9, 13, 20, 0.85);
-    --glass-card: rgba(13, 19, 30, 0.92);
-    --border: rgba(245, 158, 11, 0.28);
-    --border-subtle: rgba(255, 255, 255, 0.07);
+    --glass: rgba(9, 13, 20, 0.88);
+    --glass-card: rgba(13, 19, 30, 0.94);
+    --border: rgba(245, 158, 11, 0.32);
+    --border-subtle: rgba(255, 255, 255, 0.09);
     --primary: #f59e0b;
     --primary-glow: rgba(245, 158, 11, 0.4);
     --text-main: #f8fafc;
@@ -49,7 +49,7 @@
     --accent-emerald: #10b981;
     --accent-amber: #fbbf24;
     --accent-crimson: #ef4444;
-    --shadow-hologram: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(245, 158, 11, 0.12);
+    --shadow-hologram: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(245, 158, 11, 0.15);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -60,22 +60,23 @@
     font-family: var(--font-sans);
     min-height: 100vh;
     overflow-x: hidden;
-    user-select: none;
     -webkit-font-smoothing: antialiased;
-    transition: background 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
+    transition: background 0.4s ease, color 0.3s ease;
     padding-bottom: 60px;
     font-size: 16px;
+    -webkit-tap-highlight-color: transparent;
   }
 
+  /* Ambient Grid Background */
   .holo-grid {
     position: fixed;
     inset: 0;
     pointer-events: none;
     background-image: linear-gradient(var(--border-subtle) 1px, transparent 1px),
                       linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-size: 36px 36px;
     z-index: 1;
-    opacity: 0.7;
+    opacity: 0.65;
   }
 
   .hud-wrapper {
@@ -86,9 +87,10 @@
     padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 22px;
   }
 
+  /* Header Bar */
   .holo-nav {
     display: flex;
     justify-content: space-between;
@@ -96,6 +98,7 @@
     background: var(--glass);
     border: 1px solid var(--border);
     backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     padding: 14px 22px;
     border-radius: 16px;
     box-shadow: var(--shadow-hologram);
@@ -122,28 +125,31 @@
     color: var(--text-main);
   }
 
+  /* Mode Switch Pill */
   .switch-dock {
     display: flex;
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.06);
     border: 1px solid var(--border-subtle);
     padding: 4px;
     border-radius: 30px;
-    gap: 4px;
+    gap: 6px;
+    z-index: 20;
   }
   body.pm-mode .switch-dock {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.05);
   }
   .dock-btn {
     background: transparent;
     border: none;
     font-family: var(--font-mono);
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 800;
     padding: 8px 18px;
     border-radius: 20px;
     cursor: pointer;
     color: var(--text-muted);
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
+    touch-action: manipulation;
   }
   .dock-btn.active {
     background: var(--primary);
@@ -164,6 +170,7 @@
     gap: 8px;
   }
 
+  /* Multi-page / Personality Status Banner */
   .personality-banner {
     background: var(--glass-card);
     border: 1px solid var(--border);
@@ -186,9 +193,12 @@
     font-weight: 800;
     color: var(--primary);
     text-transform: uppercase;
-    background: rgba(2, 132, 199, 0.1);
+    background: rgba(2, 132, 199, 0.12);
     padding: 3px 8px;
     border-radius: 4px;
+  }
+  body.pm-mode .banner-tag {
+    background: rgba(245, 158, 11, 0.15);
   }
   .banner-text {
     font-size: 15px;
@@ -196,6 +206,7 @@
     color: var(--text-main);
   }
 
+  /* Hero Section */
   .hero-hologram {
     background: var(--glass-card);
     border: 1px solid var(--border);
@@ -230,6 +241,7 @@
     text-transform: uppercase;
   }
 
+  /* Metric Holo-Pill Grid */
   .metric-deck {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -263,6 +275,7 @@
   .metric-val.amber { color: var(--accent-amber); }
   .metric-val.cyan { color: var(--primary); }
 
+  /* Two Column Main Architecture */
   .main-deck {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
@@ -274,6 +287,7 @@
     gap: 20px;
   }
 
+  /* Holo Panel Card */
   .holo-panel {
     background: var(--glass-card);
     border: 1px solid var(--border);
@@ -306,6 +320,7 @@
     color: var(--primary);
   }
 
+  /* Expandable Email Item */
   .inbox-list {
     display: flex;
     flex-direction: column;
@@ -321,10 +336,6 @@
   body.pm-mode .email-item {
     background: rgba(255, 255, 255, 0.03);
   }
-  .email-item:hover {
-    border-color: var(--primary);
-    box-shadow: 0 4px 14px var(--primary-glow);
-  }
   .email-header-row {
     padding: 14px 18px;
     display: flex;
@@ -332,6 +343,7 @@
     align-items: center;
     cursor: pointer;
     gap: 14px;
+    touch-action: manipulation;
   }
   .email-summary {
     flex-grow: 1;
@@ -360,36 +372,42 @@
     border: 1px solid var(--border);
     padding: 3px 8px;
     border-radius: 4px;
+    pointer-events: none;
   }
   .email-dismiss {
     background: transparent;
     border: 1px solid var(--border-subtle);
     color: var(--text-sub);
-    width: 26px;
-    height: 26px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 800;
     cursor: pointer;
     transition: all 0.2s ease;
+    touch-action: manipulation;
+    z-index: 25;
   }
-  .email-dismiss:hover {
+  .email-dismiss:hover, .email-dismiss:active {
     border-color: var(--accent-crimson);
     color: var(--accent-crimson);
-    background: rgba(220, 38, 38, 0.1);
+    background: rgba(220, 38, 38, 0.15);
+    transform: scale(1.15);
   }
 
+  /* Drawer Content */
   .email-drawer {
     display: none;
     padding: 0 18px 16px 18px;
     border-top: 1px solid var(--border-subtle);
-    background: rgba(0, 0, 0, 0.015);
+    background: rgba(0, 0, 0, 0.02);
   }
   body.pm-mode .email-drawer {
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.3);
   }
   .drawer-body {
     font-size: 14px;
@@ -414,6 +432,7 @@
     cursor: pointer;
   }
 
+  /* Financial Cards & Billing Radar */
   .bill-card {
     display: flex;
     justify-content: space-between;
@@ -445,6 +464,7 @@
     color: var(--accent-emerald);
   }
 
+  /* Operational Timeline Row */
   .time-block {
     padding: 14px 18px;
     border-left: 4px solid var(--primary);
@@ -470,6 +490,7 @@
     line-height: 1.4;
   }
 
+  /* Red Folder Radar Item */
   .radar-row {
     padding: 14px 18px;
     background: rgba(0,0,0,0.02);
@@ -524,12 +545,13 @@
   }
 </style>
 </head>
-<body>
+<body onclick="void(0)">
 
 <div class="holo-grid"></div>
 
 <div class="hud-wrapper">
 
+  <!-- Header Bar -->
   <header class="holo-nav">
     <div class="nav-left">
       <div class="system-node"></div>
@@ -541,9 +563,10 @@
       </div>
     </div>
 
+    <!-- Mode Switcher Pill -->
     <div class="switch-dock">
-      <button id="dock-am" class="dock-btn active" onclick="setMode('am')">AM · HOLOGRAPHIC LIGHT</button>
-      <button id="dock-pm" class="dock-btn" onclick="setMode('pm')">PM · STEALTH DEBRIEF</button>
+      <button type="button" id="dock-am" class="dock-btn active">AM · HOLOGRAPHIC LIGHT</button>
+      <button type="button" id="dock-pm" class="dock-btn">PM · STEALTH DEBRIEF</button>
     </div>
 
     <div class="nav-right">
@@ -551,6 +574,7 @@
     </div>
   </header>
 
+  <!-- Multi-page / Personality Status Banner -->
   <div class="personality-banner">
     <div class="banner-left">
       <span class="banner-tag" id="loadout-tag">LIGHT LOADOUT</span>
@@ -561,6 +585,7 @@
     </div>
   </div>
 
+  <!-- Hero Section -->
   <section class="hero-hologram">
     <div id="brief-quote" class="hero-quote">
       "Whatever the Way, the master of strategy does not appear fast. Really skillful people never get out of time, are always deliberate, and never appear busy."
@@ -568,6 +593,7 @@
     <div id="brief-author" class="hero-author">— Miyamoto Musashi</div>
   </section>
 
+  <!-- Metric Gauges -->
   <section class="metric-deck">
     <div class="metric-card">
       <div class="metric-label" id="m1-lbl">DAILY RISK CEILING</div>
@@ -587,9 +613,13 @@
     </div>
   </section>
 
+  <!-- Main Multi-Column Horizon -->
   <main class="main-deck">
     
+    <!-- Left Pane -->
     <div class="deck-pane">
+      
+      <!-- Operational Timeline -->
       <div class="holo-panel">
         <div class="panel-header">
           <div class="panel-title">
@@ -636,6 +666,7 @@
         </div>
       </div>
 
+      <!-- Financial / Billing Radar -->
       <div class="holo-panel">
         <div class="panel-header">
           <div class="panel-title">💳 FINANCIAL RADAR & CARDS</div>
@@ -669,23 +700,27 @@
 
     </div>
 
+    <!-- Right Pane -->
     <div class="deck-pane">
+      
+      <!-- Expandable Inbox Queue -->
       <div class="holo-panel">
         <div class="panel-header">
           <div class="panel-title">📬 HIGH-PRIORITY INBOX</div>
-          <span class="panel-tag">CLICK TO EXPAND</span>
+          <span class="panel-tag">TAP TO EXPAND</span>
         </div>
 
         <div class="inbox-list" id="inbox-docket">
+          
           <div class="email-item">
-            <div class="email-header-row" onclick="toggleEmail(this)">
+            <div class="email-header-row">
               <div class="email-summary">
                 <div class="email-sender">Tempo Trades</div>
                 <div class="email-subject">Tech Earnings Tank The Stock Market — Weekly Outlook</div>
               </div>
               <div class="email-meta-right">
                 <span class="expand-pill">VIEW</span>
-                <button class="email-dismiss" title="Dismiss" onclick="dismissEmail(event, this)">✕</button>
+                <button type="button" class="email-dismiss" title="Dismiss">✕</button>
               </div>
             </div>
             <div class="email-drawer">
@@ -693,21 +728,20 @@
                 Detailed market video analysis reviewing NASDAQ and ES reaction to big tech earnings revisions. Key liquidity pools mapped below Friday's selloff.
               </div>
               <div class="drawer-actions">
-                <button class="drawer-btn" onclick="openWeb('https://mail.google.com')">Open in Gmail</button>
-                <button class="drawer-btn" style="color: var(--accent-crimson); border-color: rgba(220,38,38,0.3);" onclick="dismissEmail(event, this)">Dismiss</button>
+                <button type="button" class="drawer-btn" onclick="window.open('https://mail.google.com','_blank')">Open in Gmail</button>
               </div>
             </div>
           </div>
 
           <div class="email-item">
-            <div class="email-header-row" onclick="toggleEmail(this)">
+            <div class="email-header-row">
               <div class="email-summary">
                 <div class="email-sender">SIM TRAXX</div>
                 <div class="email-subject">Assetto Corsa GMR+ California Mod Update</div>
               </div>
               <div class="email-meta-right">
                 <span class="expand-pill">VIEW</span>
-                <button class="email-dismiss" title="Dismiss" onclick="dismissEmail(event, this)">✕</button>
+                <button type="button" class="email-dismiss" title="Dismiss">✕</button>
               </div>
             </div>
             <div class="email-drawer">
@@ -715,21 +749,20 @@
                 Physics engine updates released for the California highway pack. Adjusted camber curves and revised force feedback profiles for sim drifting rigs.
               </div>
               <div class="drawer-actions">
-                <button class="drawer-btn" onclick="openWeb('https://mail.google.com')">Open in Gmail</button>
-                <button class="drawer-btn" style="color: var(--accent-crimson); border-color: rgba(220,38,38,0.3);" onclick="dismissEmail(event, this)">Dismiss</button>
+                <button type="button" class="drawer-btn" onclick="window.open('https://mail.google.com','_blank')">Open in Gmail</button>
               </div>
             </div>
           </div>
 
           <div class="email-item">
-            <div class="email-header-row" onclick="toggleEmail(this)">
+            <div class="email-header-row">
               <div class="email-summary">
                 <div class="email-sender">Infrastructure.edu Route</div>
                 <div class="email-subject">Forwarding Gateway Verified</div>
               </div>
               <div class="email-meta-right">
                 <span class="expand-pill">VIEW</span>
-                <button class="email-dismiss" title="Dismiss" onclick="dismissEmail(event, this)">✕</button>
+                <button type="button" class="email-dismiss" title="Dismiss">✕</button>
               </div>
             </div>
             <div class="email-drawer">
@@ -737,13 +770,15 @@
                 Incoming campus network infrastructure notifications automatically routed to your primary command hub.
               </div>
               <div class="drawer-actions">
-                <button class="drawer-btn" onclick="openWeb('https://mail.google.com')">Open in Gmail</button>
+                <button type="button" class="drawer-btn" onclick="window.open('https://mail.google.com','_blank')">Open in Gmail</button>
               </div>
             </div>
           </div>
+
         </div>
       </div>
 
+      <!-- Red Folder Catalysts Only -->
       <div class="holo-panel">
         <div class="panel-header">
           <div class="panel-title">🚨 MACRO RADAR (RED FOLDER ONLY)</div>
@@ -778,8 +813,15 @@
 </div>
 
 <script>
-  let currentMode = 'am';
+  // Safe storage wrappers
+  function safeGet(key) {
+    try { return localStorage.getItem(key); } catch (e) { return null; }
+  }
+  function safeSet(key, val) {
+    try { localStorage.setItem(key, val); } catch (e) {}
+  }
 
+  // Live Clock
   function updateClock() {
     const now = new Date();
     let hours = now.getHours();
@@ -788,47 +830,23 @@
     const ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
     hours = hours ? hours : 12;
-    document.getElementById('live-time').innerText = `${hours}:${minutes}:${seconds} ${ampm} PT`;
+    const el = document.getElementById('live-time');
+    if (el) el.innerText = `${hours}:${minutes}:${seconds} ${ampm} PT`;
   }
   setInterval(updateClock, 1000);
   updateClock();
 
-  function toggleEmail(headerEl) {
-    const drawer = headerEl.nextElementSibling;
-    const isExpanded = drawer.style.display === 'block';
-    
-    document.querySelectorAll('.email-drawer').forEach(d => d.style.display = 'none');
-    document.querySelectorAll('.expand-pill').forEach(p => p.innerText = 'VIEW');
-
-    if (!isExpanded) {
-      drawer.style.display = 'block';
-      headerEl.querySelector('.expand-pill').innerText = 'COLLAPSE';
-    }
-  }
-
-  function dismissEmail(e, btn) {
-    e.stopPropagation();
-    const item = btn.closest('.email-item');
-    item.style.opacity = '0';
-    item.style.transform = 'scale(0.95)';
-    setTimeout(() => item.remove(), 250);
-  }
-
-  function openWeb(url) {
-    window.open(url, '_blank');
-  }
-
+  // Mode Switcher Logic
   function setMode(mode) {
-    currentMode = mode;
-    localStorage.setItem('kairos_holo_mode', mode);
+    safeSet('kairos_holo_mode', mode);
 
     const btnAm = document.getElementById('dock-am');
     const btnPm = document.getElementById('dock-pm');
 
     if (mode === 'pm') {
       document.body.classList.add('pm-mode');
-      btnPm.classList.add('active');
-      btnAm.classList.remove('active');
+      if (btnPm) btnPm.classList.add('active');
+      if (btnAm) btnAm.classList.remove('active');
       
       document.getElementById('system-header-title').innerText = 'KAIROS // STEALTH PM DEBRIEF';
       document.getElementById('loadout-tag').innerText = 'NIGHT DEBRIEF ACTIVE';
@@ -855,12 +873,12 @@
       document.getElementById('timeline-icon').innerText = '🌙';
     } else {
       document.body.classList.remove('pm-mode');
-      btnAm.classList.add('active');
-      btnPm.classList.remove('active');
+      if (btnAm) btnAm.classList.add('active');
+      if (btnPm) btnPm.classList.remove('active');
       
       document.getElementById('system-header-title').innerText = 'KAIROS // HOLOGRAPHIC AM COCKPIT';
       document.getElementById('loadout-tag').innerText = 'LIGHT LOADOUT';
-      document.getElementById('loadout-text').innerText = 'All systems nominal. Smooth runway ahead. Lock in, execute clean, and don\\'t force trades.';
+      document.getElementById('loadout-text').innerText = 'All systems nominal. Smooth runway ahead. Lock in, execute clean, and do not force trades.';
       document.getElementById('page-indicator').innerText = 'PANE 1 OF 1';
 
       document.getElementById('m1-lbl').innerText = 'DAILY RISK CEILING';
@@ -884,17 +902,62 @@
     }
   }
 
-  const saved = localStorage.getItem('kairos_holo_mode');
-  if (saved) {
-    setMode(saved);
-  } else {
-    const hour = new Date().getHours();
-    if (hour >= 17 || hour < 5) {
-      setMode('pm');
+  // Setup Touch & Click Listeners directly via JS (Fixes iOS Safari non-responsive touch)
+  document.addEventListener('DOMContentLoaded', () => {
+    // Mode buttons
+    const btnAm = document.getElementById('dock-am');
+    const btnPm = document.getElementById('dock-pm');
+    if (btnAm) btnAm.addEventListener('click', () => setMode('am'));
+    if (btnPm) btnPm.addEventListener('click', () => setMode('pm'));
+
+    // Email Accordion and Dismiss
+    document.querySelectorAll('.email-item').forEach(item => {
+      const header = item.querySelector('.email-header-row');
+      const drawer = item.querySelector('.email-drawer');
+      const dismissBtn = item.querySelector('.email-dismiss');
+      const pill = item.querySelector('.expand-pill');
+
+      if (header && drawer) {
+        header.addEventListener('click', (e) => {
+          // If clicking dismiss button, do not toggle drawer
+          if (e.target.closest('.email-dismiss')) return;
+
+          const isExpanded = drawer.style.display === 'block';
+          // Collapse all others
+          document.querySelectorAll('.email-drawer').forEach(d => d.style.display = 'none');
+          document.querySelectorAll('.expand-pill').forEach(p => p.innerText = 'VIEW');
+
+          if (!isExpanded) {
+            drawer.style.display = 'block';
+            if (pill) pill.innerText = 'COLLAPSE';
+          }
+        });
+      }
+
+      if (dismissBtn) {
+        dismissBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          item.style.opacity = '0';
+          item.style.transform = 'scale(0.92)';
+          setTimeout(() => item.remove(), 250);
+        });
+      }
+    });
+
+    // Auto-detect or restore saved mode
+    const saved = safeGet('kairos_holo_mode');
+    if (saved) {
+      setMode(saved);
     } else {
-      setMode('am');
+      const hour = new Date().getHours();
+      if (hour >= 17 || hour < 5) {
+        setMode('pm');
+      } else {
+        setMode('am');
+      }
     }
-  }
+  });
 </script>
 </body>
 </html>
