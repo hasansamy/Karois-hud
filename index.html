@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,700;1,600&family=JetBrains+Mono:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Morning Hologram (Optic Light / Neon Cyan / Solar Gold) */
     --bg-mesh: radial-gradient(at 10% 20%, rgba(56, 189, 248, 0.18) 0px, transparent 50%),
                radial-gradient(at 90% 10%, rgba(251, 191, 36, 0.16) 0px, transparent 50%),
                radial-gradient(at 50% 90%, rgba(99, 102, 241, 0.14) 0px, transparent 50%),
@@ -32,7 +31,6 @@
     --shadow-hologram: 0 16px 40px -8px rgba(14, 165, 233, 0.18), 0 2px 10px rgba(0,0,0,0.03);
   }
 
-  /* Night Debrief Mode (Stealth Midnight Obsidian / Warm Amber Ember) */
   body.pm-mode {
     --bg-mesh: radial-gradient(at 20% 20%, rgba(245, 158, 11, 0.15) 0px, transparent 50%),
                radial-gradient(at 80% 80%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
@@ -67,7 +65,6 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Ambient Grid Background */
   .holo-grid {
     position: fixed;
     inset: 0;
@@ -125,7 +122,6 @@
     color: var(--text-main);
   }
 
-  /* Mode Switch Pill */
   .switch-dock {
     display: flex;
     background: rgba(0, 0, 0, 0.06);
@@ -170,40 +166,44 @@
     gap: 8px;
   }
 
-  /* Multi-page / Personality Status Banner */
-  .personality-banner {
+  /* Weather & Traffic Commute Banner */
+  .commute-banner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .commute-card {
     background: var(--glass-card);
     border: 1px solid var(--border);
-    border-left: 5px solid var(--primary);
-    border-radius: 12px;
-    padding: 14px 20px;
+    border-radius: 14px;
+    padding: 14px 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: var(--shadow-hologram);
   }
-  .banner-left {
+  .commute-info-title {
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-main);
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
   }
-  .banner-tag {
+  .commute-info-sub {
     font-family: var(--font-mono);
     font-size: 12px;
-    font-weight: 800;
-    color: var(--primary);
-    text-transform: uppercase;
-    background: rgba(2, 132, 199, 0.12);
-    padding: 3px 8px;
-    border-radius: 4px;
+    color: var(--text-muted);
+    margin-top: 3px;
   }
-  body.pm-mode .banner-tag {
-    background: rgba(245, 158, 11, 0.15);
-  }
-  .banner-text {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-main);
+  .commute-badge {
+    font-family: var(--font-head);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    text-align: right;
   }
 
   /* Hero Section */
@@ -211,7 +211,7 @@
     background: var(--glass-card);
     border: 1px solid var(--border);
     border-radius: 20px;
-    padding: 32px 36px;
+    padding: 30px 34px;
     box-shadow: var(--shadow-hologram);
     position: relative;
     overflow: hidden;
@@ -320,7 +320,196 @@
     color: var(--primary);
   }
 
-  /* Expandable Email Item */
+  /* Hydration Tap Bar */
+  .hydro-tracker {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .hydro-segments {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .hydro-block {
+    background: rgba(0,0,0,0.03);
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    touch-action: manipulation;
+  }
+  body.pm-mode .hydro-block {
+    background: rgba(255,255,255,0.03);
+  }
+  .hydro-block.active {
+    background: rgba(2, 132, 199, 0.16);
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 16px var(--primary-glow);
+  }
+  body.pm-mode .hydro-block.active {
+    background: rgba(245, 158, 11, 0.18);
+    border-color: var(--primary);
+  }
+  .hydro-block-vol {
+    font-family: var(--font-head);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+  .hydro-block-lbl {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-sub);
+    margin-top: 3px;
+  }
+  .hydro-status {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  /* 4-7-8 Breathing Sphere (PM Mode) */
+  .breath-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0 10px 0;
+  }
+  .breath-sphere {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-amber), rgba(245, 158, 11, 0.2));
+    box-shadow: 0 0 35px var(--accent-amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #020408;
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    animation: breatheAnim 19s infinite ease-in-out;
+  }
+  .breath-caption {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent-amber);
+    margin-top: 18px;
+    letter-spacing: 0.5px;
+  }
+
+  @keyframes breatheAnim {
+    0%, 100% { transform: scale(0.75); opacity: 0.5; }
+    21% { transform: scale(1.25); opacity: 1; }
+    58% { transform: scale(1.25); opacity: 0.95; }
+    100% { transform: scale(0.75); opacity: 0.5; }
+  }
+
+  /* 3D Supplement Carousel */
+  .supp-stage {
+    perspective: 800px;
+    padding: 8px 0;
+  }
+  .supp-box {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 20px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  body.pm-mode .supp-box {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .supp-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .supp-cube-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(2, 132, 199, 0.12);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    animation: rotate3d 8s infinite linear;
+  }
+  body.pm-mode .supp-cube-icon {
+    background: rgba(245, 158, 11, 0.15);
+  }
+  .supp-name {
+    font-family: var(--font-head);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+  .supp-timing {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--primary);
+    margin-top: 3px;
+  }
+  .supp-tap-hint {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-sub);
+    border: 1px solid var(--border-subtle);
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+
+  .add-supp-form {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .supp-input {
+    flex-grow: 1;
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-main);
+    outline: none;
+  }
+  body.pm-mode .supp-input {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .supp-add-btn {
+    background: var(--primary);
+    border: none;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  body.pm-mode .supp-add-btn {
+    color: #020408;
+  }
+
+  /* Inbox Item */
   .inbox-list {
     display: flex;
     flex-direction: column;
@@ -399,7 +588,6 @@
     transform: scale(1.15);
   }
 
-  /* Drawer Content */
   .email-drawer {
     display: none;
     padding: 0 18px 16px 18px;
@@ -432,39 +620,53 @@
     cursor: pointer;
   }
 
-  /* Financial Cards & Billing Radar */
-  .bill-card {
+  /* Consistency Dashboard Launch Card */
+  .sheet-card {
+    background: rgba(0,0,0,0.02);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 16px;
-    border-radius: 12px;
-    border: 1px solid var(--border-subtle);
-    background: rgba(0,0,0,0.02);
-    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
-  body.pm-mode .bill-card {
-    background: rgba(255,255,255,0.02);
+  body.pm-mode .sheet-card {
+    background: rgba(255,255,255,0.03);
   }
-  .bill-title {
-    font-size: 16px;
+  .sheet-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 16px var(--primary-glow);
+  }
+  .sheet-title {
+    font-family: var(--font-head);
+    font-size: 17px;
     font-weight: 700;
     color: var(--text-main);
   }
-  .bill-sub {
+  .sheet-meta {
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-sub);
-    margin-top: 2px;
+    margin-top: 3px;
   }
-  .bill-tag {
-    font-family: var(--font-head);
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--accent-emerald);
+  .sheet-btn {
+    background: var(--primary);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 800;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+  body.pm-mode .sheet-btn {
+    color: #020408;
   }
 
-  /* Operational Timeline Row */
+  /* Timeline */
   .time-block {
     padding: 14px 18px;
     border-left: 4px solid var(--primary);
@@ -490,7 +692,7 @@
     line-height: 1.4;
   }
 
-  /* Red Folder Radar Item */
+  /* Radar */
   .radar-row {
     padding: 14px 18px;
     background: rgba(0,0,0,0.02);
@@ -536,8 +738,14 @@
     50% { transform: scale(1.2); opacity: 0.6; }
   }
 
+  @keyframes rotate3d {
+    0% { transform: rotateY(0deg); }
+    50% { transform: rotateY(180deg); }
+    100% { transform: rotateY(360deg); }
+  }
+
   @media (max-width: 900px) {
-    .main-deck, .metric-deck { grid-template-columns: 1fr; }
+    .main-deck, .metric-deck, .commute-banner { grid-template-columns: 1fr; }
     .hud-wrapper { padding: 16px; }
     .holo-nav { flex-direction: column; gap: 14px; align-items: flex-start; }
     .hero-hologram { padding: 22px; }
@@ -551,7 +759,6 @@
 
 <div class="hud-wrapper">
 
-  <!-- Header Bar -->
   <header class="holo-nav">
     <div class="nav-left">
       <div class="system-node"></div>
@@ -563,7 +770,6 @@
       </div>
     </div>
 
-    <!-- Mode Switcher Pill -->
     <div class="switch-dock">
       <button type="button" id="dock-am" class="dock-btn active">AM · HOLOGRAPHIC LIGHT</button>
       <button type="button" id="dock-pm" class="dock-btn">PM · STEALTH DEBRIEF</button>
@@ -574,18 +780,27 @@
     </div>
   </header>
 
-  <!-- Multi-page / Personality Status Banner -->
-  <div class="personality-banner">
-    <div class="banner-left">
-      <span class="banner-tag" id="loadout-tag">LIGHT LOADOUT</span>
-      <span class="banner-text" id="loadout-text">All systems nominal. Smooth runway ahead. Lock in, execute clean, and don't force trades.</span>
+  <section class="commute-banner">
+    <div class="commute-card">
+      <div>
+        <div class="commute-info-title">☀️ SAN JOSE WEATHER</div>
+        <div class="commute-info-sub">Morning 54°F · Crisp & Clear · High of 68°F</div>
+      </div>
+      <div class="commute-badge" style="color: var(--accent-amber);">54°F</div>
     </div>
-    <div style="font-family: var(--font-mono); font-size: 13px; color: var(--primary);" id="page-indicator">
-      PANE 1 OF 1
-    </div>
-  </div>
 
-  <!-- Hero Section -->
+    <div class="commute-card">
+      <div>
+        <div class="commute-info-title">🚗 COMMUTE RADAR (8:00 AM DEPARTURE)</div>
+        <div class="commute-info-sub">To: Johnson & Johnson (5490 Great America Pkwy) · 16.3 mi</div>
+      </div>
+      <div class="commute-badge" style="color: var(--accent-crimson);">
+        54 MIN
+        <div style="font-size: 10px; color: var(--text-sub); font-family: var(--font-mono);">HEAVY (I-680 N)</div>
+      </div>
+    </div>
+  </section>
+
   <section class="hero-hologram">
     <div id="brief-quote" class="hero-quote">
       "Whatever the Way, the master of strategy does not appear fast. Really skillful people never get out of time, are always deliberate, and never appear busy."
@@ -593,7 +808,6 @@
     <div id="brief-author" class="hero-author">— Miyamoto Musashi</div>
   </section>
 
-  <!-- Metric Gauges -->
   <section class="metric-deck">
     <div class="metric-card">
       <div class="metric-label" id="m1-lbl">DAILY RISK CEILING</div>
@@ -608,18 +822,46 @@
       <div class="metric-val emerald" id="m3-val">TRIM 90% @ 1:1</div>
     </div>
     <div class="metric-card">
-      <div class="metric-label" id="m4-lbl">SESSION CUTOFF</div>
-      <div class="metric-val amber" id="m4-val">08:00 AM HARD</div>
+      <div class="metric-label" id="m4-lbl">EXECUTION CUTOFF</div>
+      <div class="metric-val amber" id="m4-val">8:00 AM</div>
     </div>
   </section>
 
-  <!-- Main Multi-Column Horizon -->
   <main class="main-deck">
     
-    <!-- Left Pane -->
     <div class="deck-pane">
       
-      <!-- Operational Timeline -->
+      <div class="holo-panel">
+        <div class="panel-header">
+          <div class="panel-title">💧 DAILY HYDRATION PROTOCOL</div>
+          <span class="panel-tag" id="hydro-count-label">0 / 128 OZ</span>
+        </div>
+        <div class="hydro-tracker">
+          <div class="hydro-segments">
+            <div class="hydro-block" onclick="toggleHydro(0)">
+              <div class="hydro-block-vol">32 OZ</div>
+              <div class="hydro-block-lbl">BOTTLE 1</div>
+            </div>
+            <div class="hydro-block" onclick="toggleHydro(1)">
+              <div class="hydro-block-vol">64 OZ</div>
+              <div class="hydro-block-lbl">BOTTLE 2</div>
+            </div>
+            <div class="hydro-block" onclick="toggleHydro(2)">
+              <div class="hydro-block-vol">96 OZ</div>
+              <div class="hydro-block-lbl">BOTTLE 3</div>
+            </div>
+            <div class="hydro-block" onclick="toggleHydro(3)">
+              <div class="hydro-block-vol">128 OZ</div>
+              <div class="hydro-block-lbl">TARGET HIT</div>
+            </div>
+          </div>
+          <div class="hydro-status">
+            <span>TAP BOTTLE TO LOG 32 OZ</span>
+            <span id="hydro-percent">0% COMPLETED</span>
+          </div>
+        </div>
+      </div>
+
       <div class="holo-panel">
         <div class="panel-header">
           <div class="panel-title">
@@ -632,11 +874,11 @@
         <div id="timeline-container">
           <div class="time-block emerald am-only">
             <div class="time-title">NY AM Futures Execution (MNQ / NQ)</div>
-            <div class="time-meta">06:30 AM – 08:00 AM PT · Hard 8:00 AM cutoff. 1 trade max, $250 risk cap. Mon/Fri 90% trim rule.</div>
+            <div class="time-meta">06:30 AM – 08:00 AM PT · Execution cutoff: 08:00 AM. 1 trade max, $250 risk cap. Mon/Fri 90% trim rule.</div>
           </div>
           <div class="time-block am-only">
-            <div class="time-title">Work Window</div>
-            <div class="time-meta">08:00 AM – 06:00 PM PT · Project trackers and dedicated deliverables queue.</div>
+            <div class="time-title">Work Window (Commute: Depart 8:00 AM)</div>
+            <div class="time-meta">08:00 AM – 06:00 PM PT · Near Great America Pkwy · Daily deliverables & project trackers.</div>
           </div>
           <div class="time-block amber am-only">
             <div class="time-title">Hypertrophy Strength Training (Gym)</div>
@@ -666,44 +908,61 @@
         </div>
       </div>
 
-      <!-- Financial / Billing Radar -->
       <div class="holo-panel">
         <div class="panel-header">
-          <div class="panel-title">💳 FINANCIAL RADAR & CARDS</div>
-          <span class="panel-tag">ACTIVE WALLET</span>
+          <div class="panel-title">💊 ROTATING SUPPLEMENT HORIZON</div>
+          <span class="panel-tag" id="supp-counter">ACTIVE STACK</span>
         </div>
 
-        <div class="bill-card">
-          <div>
-            <div class="bill-title">American Express Gold</div>
-            <div class="bill-sub">Charge Card · 4x Groceries/Dining · $10/mo Dining Credit Active</div>
+        <div class="supp-stage">
+          <div class="supp-box" id="active-supp-box">
+            <div class="supp-left">
+              <div class="supp-cube-icon" id="supp-icon">🧬</div>
+              <div>
+                <div class="supp-name" id="supp-title">Magnesium Glycinate</div>
+                <div class="supp-timing" id="supp-sub">Target: ~1 hr Before Sleep (Sleep Architecture)</div>
+              </div>
+            </div>
+            <div class="supp-tap-hint">TAP TO ROTATE ↻</div>
           </div>
-          <div class="bill-tag">STATEMENT OPEN</div>
         </div>
 
-        <div class="bill-card">
-          <div>
-            <div class="bill-title">Wells Fargo Active Cash</div>
-            <div class="bill-sub">$2,000 Credit Limit · 2% Universal Cashback Anchor</div>
-          </div>
-          <div class="bill-tag">CURRENT</div>
-        </div>
-
-        <div class="bill-card">
-          <div>
-            <div class="bill-title">No Hesi Underground Tier 3</div>
-            <div class="bill-sub">Stripe Recurring · Renewal: Dec 5, 2026 ($27.99)</div>
-          </div>
-          <div class="bill-tag" style="color: var(--primary);">DEC 5</div>
+        <div class="add-supp-form">
+          <input type="text" id="new-supp-name" class="supp-input" placeholder="Add new supplement (e.g., Creatine, Ashwagandha)...">
+          <input type="text" id="new-supp-time" class="supp-input" style="max-width: 130px;" placeholder="Timing (e.g. AM Fasted)...">
+          <button type="button" class="supp-add-btn" id="btn-add-supp">+ ADD</button>
         </div>
       </div>
 
     </div>
 
-    <!-- Right Pane -->
     <div class="deck-pane">
       
-      <!-- Expandable Inbox Queue -->
+      <div class="holo-panel pm-only">
+        <div class="panel-header">
+          <div class="panel-title">🧘 4-7-8 NERVOUS SYSTEM DOWNSHIFT</div>
+          <span class="panel-tag">PARASYMPATHETIC RESET</span>
+        </div>
+        <div class="breath-box">
+          <div class="breath-sphere">INHALE (4s)</div>
+          <div class="breath-caption">Sync your breath with the sphere expansion · Hold 7s · Exhale 8s</div>
+        </div>
+      </div>
+
+      <div class="holo-panel pm-only">
+        <div class="panel-header">
+          <div class="panel-title">📊 CONSISTENCY DASHBOARD</div>
+          <span class="panel-tag">GOOGLE SHEETS</span>
+        </div>
+        <div class="sheet-card" onclick="window.open('https://docs.google.com/spreadsheets/d/1s_tS5HZXrPMj4PUkNovuTrB6BbuiqRIINlLIRXb4ot0/edit','_blank')">
+          <div>
+            <div class="sheet-title">Open Daily Consistency Tracker</div>
+            <div class="sheet-meta">Habits · Hours Allocation · Daily Ratings & Review</div>
+          </div>
+          <button type="button" class="sheet-btn">OPEN ↗</button>
+        </div>
+      </div>
+
       <div class="holo-panel">
         <div class="panel-header">
           <div class="panel-title">📬 HIGH-PRIORITY INBOX</div>
@@ -711,7 +970,6 @@
         </div>
 
         <div class="inbox-list" id="inbox-docket">
-          
           <div class="email-item">
             <div class="email-header-row">
               <div class="email-summary">
@@ -774,11 +1032,9 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
-      <!-- Red Folder Catalysts Only -->
       <div class="holo-panel">
         <div class="panel-header">
           <div class="panel-title">🚨 MACRO RADAR (RED FOLDER ONLY)</div>
@@ -798,10 +1054,10 @@
         <div class="radar-row">
           <div class="radar-head">
             <span class="radar-pill-red">RULE</span>
-            <span>1R Hard Stop & Hard 8:00 AM Cutoff</span>
+            <span>1R Stop & Execution Cutoff 8am</span>
           </div>
           <div class="radar-desc">
-            1 trade maximum. $200–$250 risk ceiling. Monday & Friday: 90% trimmed at 1:1, runner runs at breakeven. Platform closed at 08:00 AM PT sharp.
+            1 trade maximum. $200–$250 risk ceiling. Monday & Friday: 90% trimmed at 1:1, runner runs at breakeven. Execution cutoff: 08:00 AM sharp.
           </div>
         </div>
       </div>
@@ -813,7 +1069,6 @@
 </div>
 
 <script>
-  // Safe storage wrappers
   function safeGet(key) {
     try { return localStorage.getItem(key); } catch (e) { return null; }
   }
@@ -821,7 +1076,6 @@
     try { localStorage.setItem(key, val); } catch (e) {}
   }
 
-  // Live Clock
   function updateClock() {
     const now = new Date();
     let hours = now.getHours();
@@ -836,7 +1090,41 @@
   setInterval(updateClock, 1000);
   updateClock();
 
-  // Mode Switcher Logic
+  let hydroState = [false, false, false, false];
+
+  function loadHydro() {
+    const raw = safeGet('kairos_hydro_state');
+    if (raw) {
+      try { hydroState = JSON.parse(raw); } catch (e) {}
+    }
+    renderHydro();
+  }
+
+  function toggleHydro(idx) {
+    hydroState[idx] = !hydroState[idx];
+    safeSet('kairos_hydro_state', JSON.stringify(hydroState));
+    renderHydro();
+  }
+
+  function renderHydro() {
+    const blocks = document.querySelectorAll('.hydro-block');
+    let count = 0;
+    blocks.forEach((b, i) => {
+      if (hydroState[i]) {
+        b.classList.add('active');
+        count++;
+      } else {
+        b.classList.remove('active');
+      }
+    });
+    const totalOz = count * 32;
+    const pct = Math.round((totalOz / 128) * 100);
+    const countLabel = document.getElementById('hydro-count-label');
+    const pctLabel = document.getElementById('hydro-percent');
+    if (countLabel) countLabel.innerText = `${totalOz} / 128 OZ`;
+    if (pctLabel) pctLabel.innerText = `${pct}% COMPLETED`;
+  }
+
   function setMode(mode) {
     safeSet('kairos_holo_mode', mode);
 
@@ -849,9 +1137,6 @@
       if (btnAm) btnAm.classList.remove('active');
       
       document.getElementById('system-header-title').innerText = 'KAIROS // STEALTH PM DEBRIEF';
-      document.getElementById('loadout-tag').innerText = 'NIGHT DEBRIEF ACTIVE';
-      document.getElementById('loadout-text').innerText = 'Session closed. Brain dump unpinned, magnesium taken, downshifting nervous system to sleep.';
-      document.getElementById('page-indicator').innerText = 'PANE 1 OF 2';
 
       document.getElementById('m1-lbl').innerText = 'RECOVERY PROTOCOL';
       document.getElementById('m1-val').innerText = 'MAGNESIUM TAKEN';
@@ -877,9 +1162,6 @@
       if (btnPm) btnPm.classList.remove('active');
       
       document.getElementById('system-header-title').innerText = 'KAIROS // HOLOGRAPHIC AM COCKPIT';
-      document.getElementById('loadout-tag').innerText = 'LIGHT LOADOUT';
-      document.getElementById('loadout-text').innerText = 'All systems nominal. Smooth runway ahead. Lock in, execute clean, and do not force trades.';
-      document.getElementById('page-indicator').innerText = 'PANE 1 OF 1';
 
       document.getElementById('m1-lbl').innerText = 'DAILY RISK CEILING';
       document.getElementById('m1-val').innerText = '$250 (1R)';
@@ -893,8 +1175,8 @@
       document.getElementById('m3-val').innerText = 'TRIM 90% @ 1:1';
       document.getElementById('m3-val').className = 'metric-val emerald';
 
-      document.getElementById('m4-lbl').innerText = 'SESSION CUTOFF';
-      document.getElementById('m4-val').innerText = '08:00 AM HARD';
+      document.getElementById('m4-lbl').innerText = 'EXECUTION CUTOFF';
+      document.getElementById('m4-val').innerText = '8:00 AM';
       document.getElementById('m4-val').className = 'metric-val amber';
 
       document.getElementById('timeline-title').innerText = 'OPERATIONAL CADENCE';
@@ -902,15 +1184,80 @@
     }
   }
 
-  // Setup Touch & Click Listeners directly via JS (Fixes iOS Safari non-responsive touch)
+  let defaultSupps = [
+    { name: "Magnesium Glycinate", timing: "Target: ~1 hr Before Sleep (Sleep Architecture)", icon: "🧬" },
+    { name: "Vitamin D3 + K2", timing: "Target: First Solid Meal / Midday", icon: "☀️" },
+    { name: "Electrolytes / Coconut Water", timing: "Target: Morning Hydration & Post-Workout", icon: "⚡" }
+  ];
+
+  let currentSuppIdx = 0;
+  let supps = [];
+
+  function loadSupps() {
+    const raw = safeGet('kairos_supp_stack');
+    if (raw) {
+      try { supps = JSON.parse(raw); } catch (e) { supps = defaultSupps; }
+    } else {
+      supps = defaultSupps;
+    }
+    renderActiveSupp();
+  }
+
+  function renderActiveSupp() {
+    if (!supps.length) return;
+    const item = supps[currentSuppIdx % supps.length];
+    const box = document.getElementById('active-supp-box');
+    const title = document.getElementById('supp-title');
+    const sub = document.getElementById('supp-sub');
+    const icon = document.getElementById('supp-icon');
+    const counter = document.getElementById('supp-counter');
+
+    if (box) {
+      box.style.transform = 'scale(0.96) rotateX(10deg)';
+      setTimeout(() => {
+        title.innerText = item.name;
+        sub.innerText = item.timing;
+        icon.innerText = item.icon || "💊";
+        counter.innerText = `${(currentSuppIdx % supps.length) + 1} OF ${supps.length}`;
+        box.style.transform = 'scale(1) rotateX(0deg)';
+      }, 150);
+    }
+  }
+
+  function rotateSupp() {
+    currentSuppIdx = (currentSuppIdx + 1) % supps.length;
+    renderActiveSupp();
+  }
+
+  function addSupp() {
+    const nameInput = document.getElementById('new-supp-name');
+    const timeInput = document.getElementById('new-supp-time');
+    const name = nameInput.value.trim();
+    const timing = timeInput.value.trim() || "Daily Target";
+
+    if (name) {
+      supps.push({ name: name, timing: timing, icon: "💊" });
+      safeSet('kairos_supp_stack', JSON.stringify(supps));
+      currentSuppIdx = supps.length - 1;
+      renderActiveSupp();
+      nameInput.value = '';
+      timeInput.value = '';
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    // Mode buttons
     const btnAm = document.getElementById('dock-am');
     const btnPm = document.getElementById('dock-pm');
     if (btnAm) btnAm.addEventListener('click', () => setMode('am'));
     if (btnPm) btnPm.addEventListener('click', () => setMode('pm'));
 
-    // Email Accordion and Dismiss
+    const suppBox = document.getElementById('active-supp-box');
+    if (suppBox) suppBox.addEventListener('click', rotateSupp);
+    setInterval(rotateSupp, 6000);
+
+    const btnAddSupp = document.getElementById('btn-add-supp');
+    if (btnAddSupp) btnAddSupp.addEventListener('click', addSupp);
+
     document.querySelectorAll('.email-item').forEach(item => {
       const header = item.querySelector('.email-header-row');
       const drawer = item.querySelector('.email-drawer');
@@ -919,11 +1266,9 @@
 
       if (header && drawer) {
         header.addEventListener('click', (e) => {
-          // If clicking dismiss button, do not toggle drawer
           if (e.target.closest('.email-dismiss')) return;
 
           const isExpanded = drawer.style.display === 'block';
-          // Collapse all others
           document.querySelectorAll('.email-drawer').forEach(d => d.style.display = 'none');
           document.querySelectorAll('.expand-pill').forEach(p => p.innerText = 'VIEW');
 
@@ -945,7 +1290,9 @@
       }
     });
 
-    // Auto-detect or restore saved mode
+    loadHydro();
+    loadSupps();
+
     const saved = safeGet('kairos_holo_mode');
     if (saved) {
       setMode(saved);
