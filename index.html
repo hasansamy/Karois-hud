@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>KAIROS · Holographic Command</title>
+<title>KAIROS · Operational Command</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,700;1,600&family=JetBrains+Mono:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -166,7 +166,7 @@
     gap: 8px;
   }
 
-  /* Weather & Traffic Commute Banner */
+  /* Weather & Traffic Commute Banner (AM Only) */
   .commute-banner {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -241,10 +241,10 @@
     text-transform: uppercase;
   }
 
-  /* Metric Holo-Pill Grid */
+  /* Metric Gauges Grid */
   .metric-deck {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 16px;
   }
   .metric-card {
@@ -274,11 +274,12 @@
   .metric-val.emerald { color: var(--accent-emerald); }
   .metric-val.amber { color: var(--accent-amber); }
   .metric-val.cyan { color: var(--primary); }
+  .metric-val.crimson { color: var(--accent-crimson); }
 
   /* Two Column Main Architecture */
   .main-deck {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: 1.1fr 0.9fr;
     gap: 20px;
   }
   .deck-pane {
@@ -320,7 +321,7 @@
     color: var(--primary);
   }
 
-  /* Hydration Tap Bar */
+  /* Interactive Real-Time Hydration Tap Bar */
   .hydro-tracker {
     display: flex;
     flex-direction: column;
@@ -374,7 +375,7 @@
     font-weight: 700;
   }
 
-  /* 4-7-8 Breathing Sphere (PM Mode) */
+  /* 4-7-8 Breathing Sphere (PM Mode Only) */
   .breath-box {
     display: flex;
     flex-direction: column;
@@ -413,99 +414,49 @@
     100% { transform: scale(0.75); opacity: 0.5; }
   }
 
-  /* 3D Supplement Carousel */
-  .supp-stage {
-    perspective: 800px;
-    padding: 8px 0;
-  }
-  .supp-box {
-    background: rgba(0, 0, 0, 0.02);
+  /* Consistency Dashboard Launch Card */
+  .sheet-card {
+    background: rgba(0,0,0,0.02);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 18px 20px;
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    border-radius: 14px;
+    padding: 16px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
-  body.pm-mode .supp-box {
-    background: rgba(255, 255, 255, 0.03);
+  body.pm-mode .sheet-card {
+    background: rgba(255,255,255,0.03);
   }
-  .supp-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+  .sheet-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 16px var(--primary-glow);
   }
-  .supp-cube-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: rgba(2, 132, 199, 0.12);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    animation: rotate3d 8s infinite linear;
-  }
-  body.pm-mode .supp-cube-icon {
-    background: rgba(245, 158, 11, 0.15);
-  }
-  .supp-name {
+  .sheet-title {
     font-family: var(--font-head);
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
     color: var(--text-main);
   }
-  .supp-timing {
+  .sheet-meta {
     font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--primary);
+    font-size: 12px;
+    color: var(--text-sub);
     margin-top: 3px;
   }
-  .supp-tap-hint {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--text-sub);
-    border: 1px solid var(--border-subtle);
-    padding: 4px 8px;
-    border-radius: 6px;
-  }
-
-  .add-supp-form {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .supp-input {
-    flex-grow: 1;
-    background: rgba(0, 0, 0, 0.03);
-    border: 1px solid var(--border-subtle);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--text-main);
-    outline: none;
-  }
-  body.pm-mode .supp-input {
-    background: rgba(255, 255, 255, 0.05);
-  }
-  .supp-add-btn {
+  .sheet-btn {
     background: var(--primary);
-    border: none;
     color: #fff;
     font-family: var(--font-mono);
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 800;
     padding: 8px 14px;
     border-radius: 8px;
+    border: none;
     cursor: pointer;
   }
-  body.pm-mode .supp-add-btn {
+  body.pm-mode .sheet-btn {
     color: #020408;
   }
 
@@ -620,52 +571,6 @@
     cursor: pointer;
   }
 
-  /* Consistency Dashboard Launch Card */
-  .sheet-card {
-    background: rgba(0,0,0,0.02);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  body.pm-mode .sheet-card {
-    background: rgba(255,255,255,0.03);
-  }
-  .sheet-card:hover {
-    border-color: var(--primary);
-    box-shadow: 0 4px 16px var(--primary-glow);
-  }
-  .sheet-title {
-    font-family: var(--font-head);
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--text-main);
-  }
-  .sheet-meta {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-sub);
-    margin-top: 3px;
-  }
-  .sheet-btn {
-    background: var(--primary);
-    color: #fff;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    font-weight: 800;
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-  }
-  body.pm-mode .sheet-btn {
-    color: #020408;
-  }
-
   /* Timeline */
   .time-block {
     padding: 14px 18px;
@@ -692,7 +597,7 @@
     line-height: 1.4;
   }
 
-  /* Radar */
+  /* Red Folder Radar Item (Beneath Trading) */
   .radar-row {
     padding: 14px 18px;
     background: rgba(0,0,0,0.02);
@@ -728,24 +633,19 @@
     line-height: 1.45;
   }
 
-  .pm-only { display: none; }
+  /* AM vs PM View Classes */
+  .pm-only { display: none !important; }
   .am-only { display: block; }
-  body.pm-mode .am-only { display: none; }
-  body.pm-mode .pm-only { display: block; }
+  body.pm-mode .am-only { display: none !important; }
+  body.pm-mode .pm-only { display: block !important; }
 
   @keyframes pulseNode {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.2); opacity: 0.6; }
   }
 
-  @keyframes rotate3d {
-    0% { transform: rotateY(0deg); }
-    50% { transform: rotateY(180deg); }
-    100% { transform: rotateY(360deg); }
-  }
-
   @media (max-width: 900px) {
-    .main-deck, .metric-deck, .commute-banner { grid-template-columns: 1fr; }
+    .main-deck, .commute-banner { grid-template-columns: 1fr; }
     .hud-wrapper { padding: 16px; }
     .holo-nav { flex-direction: column; gap: 14px; align-items: flex-start; }
     .hero-hologram { padding: 22px; }
@@ -759,6 +659,7 @@
 
 <div class="hud-wrapper">
 
+  <!-- Header Bar -->
   <header class="holo-nav">
     <div class="nav-left">
       <div class="system-node"></div>
@@ -770,6 +671,7 @@
       </div>
     </div>
 
+    <!-- Mode Switcher Pill -->
     <div class="switch-dock">
       <button type="button" id="dock-am" class="dock-btn active">AM · HOLOGRAPHIC LIGHT</button>
       <button type="button" id="dock-pm" class="dock-btn">PM · STEALTH DEBRIEF</button>
@@ -780,7 +682,9 @@
     </div>
   </header>
 
-  <section class="commute-banner">
+  <!-- Weather & Commute Telemetry Strip (AM ONLY - Hidden at night) -->
+  <section class="commute-banner am-only">
+    <!-- Weather Widget -->
     <div class="commute-card">
       <div>
         <div class="commute-info-title">☀️ SAN JOSE WEATHER</div>
@@ -789,18 +693,20 @@
       <div class="commute-badge" style="color: var(--accent-amber);">54°F</div>
     </div>
 
+    <!-- Commute Traffic to STMicroelectronics Santa Clara -->
     <div class="commute-card">
       <div>
-        <div class="commute-info-title">🚗 COMMUTE RADAR (8:00 AM DEPARTURE)</div>
-        <div class="commute-info-sub">To: Johnson & Johnson (5490 Great America Pkwy) · 16.3 mi</div>
+        <div class="commute-info-title">🚗 COMMUTE RADAR (DEPART 8:00 AM)</div>
+        <div class="commute-info-sub">To: STMicroelectronics (Santa Clara) · 11.3 mi via I-880 S</div>
       </div>
       <div class="commute-badge" style="color: var(--accent-crimson);">
-        54 MIN
-        <div style="font-size: 10px; color: var(--text-sub); font-family: var(--font-mono);">HEAVY (I-680 N)</div>
+        28 MIN
+        <div style="font-size: 10px; color: var(--text-sub); font-family: var(--font-mono);">MODERATE / HEAVY</div>
       </div>
     </div>
   </section>
 
+  <!-- Hero Section -->
   <section class="hero-hologram">
     <div id="brief-quote" class="hero-quote">
       "Whatever the Way, the master of strategy does not appear fast. Really skillful people never get out of time, are always deliberate, and never appear busy."
@@ -808,29 +714,34 @@
     <div id="brief-author" class="hero-author">— Miyamoto Musashi</div>
   </section>
 
-  <section class="metric-deck">
+  <!-- Metric Gauges (Dynamic: Mon/Fri mandate appears ONLY on Mon/Fri; -2R Walk Away replaces trade ceiling) -->
+  <section class="metric-deck" id="metric-deck-container">
     <div class="metric-card">
       <div class="metric-label" id="m1-lbl">DAILY RISK CEILING</div>
       <div class="metric-val" id="m1-val">$250 (1R)</div>
     </div>
     <div class="metric-card">
-      <div class="metric-label" id="m2-lbl">TRADE CEILING</div>
-      <div class="metric-val cyan" id="m2-val">1 TRADE MAX</div>
+      <div class="metric-label" id="m2-lbl">HARD STOP CEILING</div>
+      <div class="metric-val crimson" id="m2-val">-2R WALK AWAY</div>
     </div>
     <div class="metric-card">
-      <div class="metric-label" id="m3-lbl">MON & FRI MANDATE</div>
-      <div class="metric-val emerald" id="m3-val">TRIM 90% @ 1:1</div>
+      <div class="metric-label" id="m3-lbl">EXECUTION CUTOFF</div>
+      <div class="metric-val amber" id="m3-val">8:00 AM</div>
     </div>
-    <div class="metric-card">
-      <div class="metric-label" id="m4-lbl">EXECUTION CUTOFF</div>
-      <div class="metric-val amber" id="m4-val">8:00 AM</div>
+    <!-- Mon/Fri Only Card (Injected dynamically) -->
+    <div class="metric-card" id="mon-fri-metric-card" style="display: none;">
+      <div class="metric-label">MON & FRI MANDATE</div>
+      <div class="metric-val emerald">TRIM 90% @ 1:1</div>
     </div>
   </section>
 
+  <!-- Main Multi-Column Horizon -->
   <main class="main-deck">
     
+    <!-- Left Pane -->
     <div class="deck-pane">
       
+      <!-- Interactive Real-Time Hydration Tap Bar -->
       <div class="holo-panel">
         <div class="panel-header">
           <div class="panel-title">💧 DAILY HYDRATION PROTOCOL</div>
@@ -862,6 +773,7 @@
         </div>
       </div>
 
+      <!-- Operational Timeline -->
       <div class="holo-panel">
         <div class="panel-header">
           <div class="panel-title">
@@ -874,11 +786,11 @@
         <div id="timeline-container">
           <div class="time-block emerald am-only">
             <div class="time-title">NY AM Futures Execution (MNQ / NQ)</div>
-            <div class="time-meta">06:30 AM – 08:00 AM PT · Execution cutoff: 08:00 AM. 1 trade max, $250 risk cap. Mon/Fri 90% trim rule.</div>
+            <div class="time-meta">06:30 AM – 08:00 AM PT · Execution cutoff: 08:00 AM. 1 trade max, $250 risk cap. Hard stop: -2R walk away.</div>
           </div>
           <div class="time-block am-only">
-            <div class="time-title">Work Window (Commute: Depart 8:00 AM)</div>
-            <div class="time-meta">08:00 AM – 06:00 PM PT · Near Great America Pkwy · Daily deliverables & project trackers.</div>
+            <div class="time-title">Work Window @ STMicroelectronics (Depart 8:00 AM)</div>
+            <div class="time-meta">08:00 AM – 06:00 PM PT · Santa Clara (across J&J) · Operations & project sprints.</div>
           </div>
           <div class="time-block amber am-only">
             <div class="time-title">Hypertrophy Strength Training (Gym)</div>
@@ -889,6 +801,7 @@
             <div class="time-meta">07:30 PM – 10:30 PM PT · Magnesium glycinate, 10m Seneca/Musashi reading, sleep blackout.</div>
           </div>
 
+          <!-- PM Only Blocks -->
           <div class="time-block amber pm-only">
             <div class="time-title">07:30 PM · Close Work & Laptop Shutdown</div>
             <div class="time-meta">Close tabs, finalize daily tracker, declare workspace shut.</div>
@@ -908,62 +821,64 @@
         </div>
       </div>
 
+      <!-- Financial / Billing Radar -->
       <div class="holo-panel">
         <div class="panel-header">
-          <div class="panel-title">💊 ROTATING SUPPLEMENT HORIZON</div>
-          <span class="panel-tag" id="supp-counter">ACTIVE STACK</span>
+          <div class="panel-title">💳 FINANCIAL RADAR & CARDS</div>
+          <span class="panel-tag">ACTIVE WALLET</span>
         </div>
 
-        <div class="supp-stage">
-          <div class="supp-box" id="active-supp-box">
-            <div class="supp-left">
-              <div class="supp-cube-icon" id="supp-icon">🧬</div>
-              <div>
-                <div class="supp-name" id="supp-title">Magnesium Glycinate</div>
-                <div class="supp-timing" id="supp-sub">Target: ~1 hr Before Sleep (Sleep Architecture)</div>
-              </div>
-            </div>
-            <div class="supp-tap-hint">TAP TO ROTATE ↻</div>
-          </div>
+        <div class="time-block" style="border-left-color: var(--primary);">
+          <div class="time-title">American Express Gold</div>
+          <div class="time-meta">Charge Card · 4x Groceries/Dining · $10/mo Dining Credit Active</div>
         </div>
 
-        <div class="add-supp-form">
-          <input type="text" id="new-supp-name" class="supp-input" placeholder="Add new supplement (e.g., Creatine, Ashwagandha)...">
-          <input type="text" id="new-supp-time" class="supp-input" style="max-width: 130px;" placeholder="Timing (e.g. AM Fasted)...">
-          <button type="button" class="supp-add-btn" id="btn-add-supp">+ ADD</button>
+        <div class="time-block emerald">
+          <div class="time-title">Wells Fargo Active Cash</div>
+          <div class="time-meta">$2,000 Credit Limit · 2% Universal Cashback Anchor</div>
+        </div>
+
+        <div class="time-block amber">
+          <div class="time-title">No Hesi Underground Tier 3</div>
+          <div class="time-meta">Stripe Recurring · Renewal: Dec 5, 2026 ($27.99)</div>
         </div>
       </div>
 
     </div>
 
+    <!-- Right Pane -->
     <div class="deck-pane">
       
-      <div class="holo-panel pm-only">
-        <div class="panel-header">
-          <div class="panel-title">🧘 4-7-8 NERVOUS SYSTEM DOWNSHIFT</div>
-          <span class="panel-tag">PARASYMPATHETIC RESET</span>
-        </div>
-        <div class="breath-box">
-          <div class="breath-sphere">INHALE (4s)</div>
-          <div class="breath-caption">Sync your breath with the sphere expansion · Hold 7s · Exhale 8s</div>
-        </div>
-      </div>
-
-      <div class="holo-panel pm-only">
-        <div class="panel-header">
-          <div class="panel-title">📊 CONSISTENCY DASHBOARD</div>
-          <span class="panel-tag">GOOGLE SHEETS</span>
-        </div>
-        <div class="sheet-card" onclick="window.open('https://docs.google.com/spreadsheets/d/1s_tS5HZXrPMj4PUkNovuTrB6BbuiqRIINlLIRXb4ot0/edit','_blank')">
-          <div>
-            <div class="sheet-title">Open Daily Consistency Tracker</div>
-            <div class="sheet-meta">Habits · Hours Allocation · Daily Ratings & Review</div>
-          </div>
-          <button type="button" class="sheet-btn">OPEN ↗</button>
-        </div>
-      </div>
-
+      <!-- Red Folder Catalysts Only (Placed right under Trading protocols) -->
       <div class="holo-panel">
+        <div class="panel-header">
+          <div class="panel-title">🚨 RED FOLDER NEWS (HIGH-IMPACT ONLY)</div>
+          <span class="panel-tag">MACRO RADAR</span>
+        </div>
+
+        <div class="radar-row">
+          <div class="radar-head">
+            <span class="radar-pill-red">RED FOLDER</span>
+            <span>Clean Session: No High-Impact Releases</span>
+          </div>
+          <div class="radar-desc">
+            No CPI, PPI, NFP, or FOMC announcements scheduled for today's opening window. Standard technical delivery: wait for initial 5m–15m liquidity runs to clear before entry.
+          </div>
+        </div>
+
+        <div class="radar-row">
+          <div class="radar-head">
+            <span class="radar-pill-red">RULE</span>
+            <span>-2R Walk Away & Execution Cutoff 8am</span>
+          </div>
+          <div class="radar-desc">
+            1R risk ceiling ($200–$250 max). If -2R is reached: walk away from charts immediately. Hard session cutoff at 08:00 AM sharp to depart for STMicroelectronics.
+          </div>
+        </div>
+      </div>
+
+      <!-- Expandable Inbox Queue (Morning & Day focus) -->
+      <div class="holo-panel am-only">
         <div class="panel-header">
           <div class="panel-title">📬 HIGH-PRIORITY INBOX</div>
           <span class="panel-tag">TAP TO EXPAND</span>
@@ -1035,30 +950,29 @@
         </div>
       </div>
 
-      <div class="holo-panel">
+      <!-- PM ONLY: 2-MINUTE BREATHING SPHERE & CONSISTENCY DASHBOARD -->
+      <div class="holo-panel pm-only">
         <div class="panel-header">
-          <div class="panel-title">🚨 MACRO RADAR (RED FOLDER ONLY)</div>
-          <span class="panel-tag">HIGH-IMPACT</span>
+          <div class="panel-title">🧘 4-7-8 NERVOUS SYSTEM DOWNSHIFT</div>
+          <span class="panel-tag">PARASYMPATHETIC RESET</span>
         </div>
-
-        <div class="radar-row">
-          <div class="radar-head">
-            <span class="radar-pill-red">RED FOLDER</span>
-            <span>Clean Session: No High-Impact Releases</span>
-          </div>
-          <div class="radar-desc">
-            No CPI, PPI, NFP, or FOMC announcements scheduled for today's opening window. Standard technical delivery: wait for initial 5m–15m liquidity runs to clear before entry.
-          </div>
+        <div class="breath-box">
+          <div class="breath-sphere">INHALE (4s)</div>
+          <div class="breath-caption">Sync breath: Inhale 4s · Hold 7s · Exhale 8s</div>
         </div>
+      </div>
 
-        <div class="radar-row">
-          <div class="radar-head">
-            <span class="radar-pill-red">RULE</span>
-            <span>1R Stop & Execution Cutoff 8am</span>
+      <div class="holo-panel pm-only">
+        <div class="panel-header">
+          <div class="panel-title">📊 CONSISTENCY DASHBOARD</div>
+          <span class="panel-tag">GOOGLE SHEETS</span>
+        </div>
+        <div class="sheet-card" onclick="window.open('https://docs.google.com/spreadsheets/d/1s_tS5HZXrPMj4PUkNovuTrB6BbuiqRIINlLIRXb4ot0/edit','_blank')">
+          <div>
+            <div class="sheet-title">Open Daily Consistency Tracker</div>
+            <div class="sheet-meta">Habits · Hours Allocation · Daily Ratings & Review</div>
           </div>
-          <div class="radar-desc">
-            1 trade maximum. $200–$250 risk ceiling. Monday & Friday: 90% trimmed at 1:1, runner runs at breakeven. Execution cutoff: 08:00 AM sharp.
-          </div>
+          <button type="button" class="sheet-btn">OPEN ↗</button>
         </div>
       </div>
 
@@ -1089,6 +1003,19 @@
   }
   setInterval(updateClock, 1000);
   updateClock();
+
+  function checkDayOfWeek() {
+    const now = new Date();
+    const day = now.getDay(); // 1 = Monday, 5 = Friday
+    const monFriCard = document.getElementById('mon-fri-metric-card');
+    if (monFriCard) {
+      if (day === 1 || day === 5) {
+        monFriCard.style.display = 'flex';
+      } else {
+        monFriCard.style.display = 'none';
+      }
+    }
+  }
 
   let hydroState = [false, false, false, false];
 
@@ -1146,16 +1073,15 @@
       document.getElementById('m2-val').innerText = '15M OFF-SCREEN';
       document.getElementById('m2-val').className = 'metric-val amber';
 
-      document.getElementById('m3-lbl').innerText = 'DIGITAL SCREENS';
-      document.getElementById('m3-val').innerText = 'ACROSS ROOM';
-      document.getElementById('m3-val').className = 'metric-val cyan';
-
-      document.getElementById('m4-lbl').innerText = 'TARGET SLEEP';
-      document.getElementById('m4-val').innerText = '10:30 PM PT';
-      document.getElementById('m4-val').className = 'metric-val amber';
+      document.getElementById('m3-lbl').innerText = 'TARGET SLEEP';
+      document.getElementById('m3-val').innerText = '10:30 PM PT';
+      document.getElementById('m3-val').className = 'metric-val amber';
 
       document.getElementById('timeline-title').innerText = 'EVENING DECOMPRESSION TIMELINE';
       document.getElementById('timeline-icon').innerText = '🌙';
+
+      const monFriCard = document.getElementById('mon-fri-metric-card');
+      if (monFriCard) monFriCard.style.display = 'none';
     } else {
       document.body.classList.remove('pm-mode');
       if (btnAm) btnAm.classList.add('active');
@@ -1167,81 +1093,18 @@
       document.getElementById('m1-val').innerText = '$250 (1R)';
       document.getElementById('m1-val').className = 'metric-val';
 
-      document.getElementById('m2-lbl').innerText = 'TRADE CEILING';
-      document.getElementById('m2-val').innerText = '1 TRADE MAX';
-      document.getElementById('m2-val').className = 'metric-val cyan';
+      document.getElementById('m2-lbl').innerText = 'HARD STOP CEILING';
+      document.getElementById('m2-val').innerText = '-2R WALK AWAY';
+      document.getElementById('m2-val').className = 'metric-val crimson';
 
-      document.getElementById('m3-lbl').innerText = 'MON & FRI MANDATE';
-      document.getElementById('m3-val').innerText = 'TRIM 90% @ 1:1';
-      document.getElementById('m3-val').className = 'metric-val emerald';
-
-      document.getElementById('m4-lbl').innerText = 'EXECUTION CUTOFF';
-      document.getElementById('m4-val').innerText = '8:00 AM';
-      document.getElementById('m4-val').className = 'metric-val amber';
+      document.getElementById('m3-lbl').innerText = 'EXECUTION CUTOFF';
+      document.getElementById('m3-val').innerText = '8:00 AM';
+      document.getElementById('m3-val').className = 'metric-val amber';
 
       document.getElementById('timeline-title').innerText = 'OPERATIONAL CADENCE';
       document.getElementById('timeline-icon').innerText = '⚡';
-    }
-  }
 
-  let defaultSupps = [
-    { name: "Magnesium Glycinate", timing: "Target: ~1 hr Before Sleep (Sleep Architecture)", icon: "🧬" },
-    { name: "Vitamin D3 + K2", timing: "Target: First Solid Meal / Midday", icon: "☀️" },
-    { name: "Electrolytes / Coconut Water", timing: "Target: Morning Hydration & Post-Workout", icon: "⚡" }
-  ];
-
-  let currentSuppIdx = 0;
-  let supps = [];
-
-  function loadSupps() {
-    const raw = safeGet('kairos_supp_stack');
-    if (raw) {
-      try { supps = JSON.parse(raw); } catch (e) { supps = defaultSupps; }
-    } else {
-      supps = defaultSupps;
-    }
-    renderActiveSupp();
-  }
-
-  function renderActiveSupp() {
-    if (!supps.length) return;
-    const item = supps[currentSuppIdx % supps.length];
-    const box = document.getElementById('active-supp-box');
-    const title = document.getElementById('supp-title');
-    const sub = document.getElementById('supp-sub');
-    const icon = document.getElementById('supp-icon');
-    const counter = document.getElementById('supp-counter');
-
-    if (box) {
-      box.style.transform = 'scale(0.96) rotateX(10deg)';
-      setTimeout(() => {
-        title.innerText = item.name;
-        sub.innerText = item.timing;
-        icon.innerText = item.icon || "💊";
-        counter.innerText = `${(currentSuppIdx % supps.length) + 1} OF ${supps.length}`;
-        box.style.transform = 'scale(1) rotateX(0deg)';
-      }, 150);
-    }
-  }
-
-  function rotateSupp() {
-    currentSuppIdx = (currentSuppIdx + 1) % supps.length;
-    renderActiveSupp();
-  }
-
-  function addSupp() {
-    const nameInput = document.getElementById('new-supp-name');
-    const timeInput = document.getElementById('new-supp-time');
-    const name = nameInput.value.trim();
-    const timing = timeInput.value.trim() || "Daily Target";
-
-    if (name) {
-      supps.push({ name: name, timing: timing, icon: "💊" });
-      safeSet('kairos_supp_stack', JSON.stringify(supps));
-      currentSuppIdx = supps.length - 1;
-      renderActiveSupp();
-      nameInput.value = '';
-      timeInput.value = '';
+      checkDayOfWeek();
     }
   }
 
@@ -1250,13 +1113,6 @@
     const btnPm = document.getElementById('dock-pm');
     if (btnAm) btnAm.addEventListener('click', () => setMode('am'));
     if (btnPm) btnPm.addEventListener('click', () => setMode('pm'));
-
-    const suppBox = document.getElementById('active-supp-box');
-    if (suppBox) suppBox.addEventListener('click', rotateSupp);
-    setInterval(rotateSupp, 6000);
-
-    const btnAddSupp = document.getElementById('btn-add-supp');
-    if (btnAddSupp) btnAddSupp.addEventListener('click', addSupp);
 
     document.querySelectorAll('.email-item').forEach(item => {
       const header = item.querySelector('.email-header-row');
@@ -1291,18 +1147,13 @@
     });
 
     loadHydro();
-    loadSupps();
+    checkDayOfWeek();
 
     const saved = safeGet('kairos_holo_mode');
     if (saved) {
       setMode(saved);
     } else {
-      const hour = new Date().getHours();
-      if (hour >= 17 || hour < 5) {
-        setMode('pm');
-      } else {
-        setMode('am');
-      }
+      setMode('am');
     }
   });
 </script>
