@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>KAIROS · Operational Command</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,14 +50,27 @@
     --shadow-hologram: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(245, 158, 11, 0.15);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
 
   body {
     background: var(--bg-mesh);
     color: var(--text-main);
     font-family: var(--font-sans);
     min-height: 100vh;
+    width: 100%;
+    max-width: 100vw;
     overflow-x: hidden;
+    position: relative;
     -webkit-font-smoothing: antialiased;
     transition: background 0.4s ease, color 0.3s ease;
     padding-bottom: 60px;
@@ -79,12 +92,14 @@
   .hud-wrapper {
     position: relative;
     z-index: 10;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 22px;
+    overflow-x: hidden;
   }
 
   .holo-nav {
@@ -98,6 +113,7 @@
     padding: 14px 22px;
     border-radius: 16px;
     box-shadow: var(--shadow-hologram);
+    width: 100%;
   }
 
   .nav-left {
@@ -169,6 +185,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px;
+    width: 100%;
   }
   .commute-card {
     background: var(--glass-card);
@@ -212,6 +229,7 @@
     box-shadow: var(--shadow-hologram);
     position: relative;
     overflow: hidden;
+    width: 100%;
   }
   .hero-hologram::before {
     content: '';
@@ -240,8 +258,9 @@
 
   .metric-deck {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
+    width: 100%;
   }
   .metric-card {
     background: var(--glass-card);
@@ -278,15 +297,16 @@
     justify-content: space-between;
   }
   .mag-bubble {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     border: 2px solid var(--text-sub);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 800;
     transition: all 0.2s ease;
   }
   .mag-bubble.checked {
@@ -300,11 +320,14 @@
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
     gap: 20px;
+    width: 100%;
   }
   .deck-pane {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
+    min-width: 0;
   }
 
   .holo-panel {
@@ -313,6 +336,8 @@
     border-radius: 18px;
     padding: 24px;
     box-shadow: var(--shadow-hologram);
+    width: 100%;
+    overflow: hidden;
   }
   .panel-header {
     display: flex;
@@ -343,11 +368,13 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
   }
   .hydro-segments {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
+    width: 100%;
   }
   .hydro-block {
     background: rgba(0,0,0,0.03);
@@ -397,6 +424,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     margin-bottom: 14px;
+    width: 100%;
   }
   .habit-pill {
     background: rgba(255, 255, 255, 0.04);
@@ -409,6 +437,7 @@
     cursor: pointer;
     transition: all 0.2s ease;
     touch-action: manipulation;
+    min-width: 0;
   }
   .habit-pill.checked {
     border-color: var(--accent-emerald);
@@ -419,10 +448,16 @@
     font-size: 13px;
     font-weight: 700;
     color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .habit-check-icon {
     font-size: 14px;
     color: var(--text-sub);
+    font-weight: 800;
+    margin-left: 8px;
+    flex-shrink: 0;
   }
   .habit-pill.checked .habit-check-icon {
     color: var(--accent-emerald);
@@ -430,25 +465,27 @@
 
   .rating-wrapper {
     margin-top: 14px;
+    width: 100%;
+    overflow: hidden;
   }
   .rating-label {
     font-family: var(--font-mono);
     font-size: 12px;
     color: var(--text-sub);
     text-transform: uppercase;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-weight: 700;
   }
   .rating-row {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    padding-bottom: 6px;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 4px;
+    width: 100%;
   }
   .rate-btn {
-    flex: 1;
-    min-width: 32px;
-    height: 36px;
+    width: 100%;
+    min-width: 0;
+    height: 38px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border-subtle);
     border-radius: 8px;
@@ -458,6 +495,10 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
   }
   .rate-btn.active {
     background: var(--primary);
@@ -471,6 +512,7 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    width: 100%;
   }
   .sync-btn {
     flex-grow: 1;
@@ -484,6 +526,7 @@
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s ease;
+    touch-action: manipulation;
   }
   .sync-btn:active {
     transform: scale(0.98);
@@ -499,6 +542,7 @@
     border-radius: 10px;
     cursor: pointer;
     white-space: nowrap;
+    touch-action: manipulation;
   }
   .sync-status-msg {
     font-family: var(--font-mono);
@@ -514,6 +558,7 @@
     align-items: center;
     justify-content: center;
     padding: 24px 0 10px 0;
+    width: 100%;
   }
   .breath-sphere {
     width: 120px;
@@ -550,6 +595,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
   }
   .email-item {
     background: rgba(0, 0, 0, 0.02);
@@ -557,6 +603,7 @@
     border-radius: 12px;
     overflow: hidden;
     transition: all 0.25s ease;
+    width: 100%;
   }
   body.pm-mode .email-item {
     background: rgba(255, 255, 255, 0.03);
@@ -572,6 +619,7 @@
   }
   .email-summary {
     flex-grow: 1;
+    min-width: 0;
   }
   .email-sender {
     font-family: var(--font-head);
@@ -583,11 +631,15 @@
     font-size: 14px;
     color: var(--text-muted);
     margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .email-meta-right {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0;
   }
   .expand-pill {
     font-family: var(--font-mono);
@@ -717,13 +769,25 @@
   }
 
   .pm-only { display: none !important; }
-  .am-only { display: block; }
+  .am-only { display: block !important; }
   body.pm-mode .am-only { display: none !important; }
   body.pm-mode .pm-only { display: block !important; }
+
+  body.pm-mode .pm-only.metric-card { display: flex !important; }
+  body.pm-mode .pm-only.holo-panel { display: block !important; }
+  body:not(.pm-mode) .am-only.metric-card { display: flex !important; }
+  body:not(.pm-mode) .am-only.commute-banner { display: grid !important; }
 
   @keyframes pulseNode {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.2); opacity: 0.6; }
+  }
+
+  @keyframes breatheAnim {
+    0%, 100% { transform: scale(0.75); opacity: 0.5; }
+    21% { transform: scale(1.25); opacity: 1; }
+    58% { transform: scale(1.25); opacity: 0.95; }
+    100% { transform: scale(0.75); opacity: 0.5; }
   }
 
   @media (max-width: 900px) {
@@ -791,20 +855,20 @@
   </section>
 
   <section class="metric-deck" id="metric-deck-container">
-    <div class="metric-card">
-      <div class="metric-label" id="m1-lbl">DAILY RISK CEILING</div>
-      <div class="metric-val" id="m1-val">$250 (1R)</div>
+    <div class="metric-card am-only">
+      <div class="metric-label">DAILY RISK CEILING</div>
+      <div class="metric-val">$250 (1R)</div>
     </div>
-    <div class="metric-card">
-      <div class="metric-label" id="m2-lbl">HARD STOP CEILING</div>
-      <div class="metric-val crimson" id="m2-val">-2R</div>
+    <div class="metric-card am-only">
+      <div class="metric-label">HARD STOP CEILING</div>
+      <div class="metric-val crimson">-2R</div>
     </div>
-    <div class="metric-card">
-      <div class="metric-label" id="m3-lbl">EXECUTION CUTOFF</div>
-      <div class="metric-val amber" id="m3-val">8:00 AM</div>
+    <div class="metric-card am-only">
+      <div class="metric-label">EXECUTION CUTOFF</div>
+      <div class="metric-val amber">8:00 AM</div>
     </div>
     
-    <div class="metric-card" id="mon-fri-metric-card" style="display: none;">
+    <div class="metric-card am-only" id="mon-fri-metric-card" style="display: none;">
       <div class="metric-label">MON & FRI MANDATE</div>
       <div class="metric-val emerald">TRIM 90% @ 1:1</div>
     </div>
@@ -815,6 +879,14 @@
         <div class="mag-bubble" id="mag-toggle-btn" onclick="toggleMagnesium()">○</div>
       </div>
       <div class="metric-val emerald" id="mag-status-text">PENDING</div>
+    </div>
+    <div class="metric-card pm-only">
+      <div class="metric-label">TARGET SLEEP</div>
+      <div class="metric-val amber">10:30 PM</div>
+    </div>
+    <div class="metric-card pm-only">
+      <div class="metric-label">NERVOUS SYSTEM</div>
+      <div class="metric-val cyan">PARASYMPATHETIC</div>
     </div>
   </section>
 
@@ -899,7 +971,7 @@
         </div>
       </div>
 
-      <div class="holo-panel">
+      <div class="holo-panel am-only">
         <div class="panel-header">
           <div class="panel-title">💳 FINANCIAL RADAR & CARDS</div>
           <span class="panel-tag">ACTIVE WALLET</span>
@@ -925,7 +997,7 @@
 
     <div class="deck-pane">
       
-      <div class="holo-panel">
+      <div class="holo-panel am-only">
         <div class="panel-header">
           <div class="panel-title">🚨 RED FOLDER NEWS (HIGH-IMPACT ONLY)</div>
           <span class="panel-tag">MACRO RADAR</span>
@@ -982,6 +1054,14 @@
           <div class="habit-pill" id="habit-mag" onclick="toggleHabit('mag')">
             <span class="habit-name">MAGNESIUM GLYCINATE</span>
             <span class="habit-check-icon" id="icon-mag">○</span>
+          </div>
+          <div class="habit-pill" id="habit-meditation" onclick="toggleHabit('meditation')">
+            <span class="habit-name">MEDITATION</span>
+            <span class="habit-check-icon" id="icon-meditation">○</span>
+          </div>
+          <div class="habit-pill" id="habit-journal" onclick="toggleHabit('journal')">
+            <span class="habit-name">JOURNAL</span>
+            <span class="habit-check-icon" id="icon-journal">○</span>
           </div>
         </div>
 
@@ -1180,6 +1260,19 @@
     const todayKey = 'kairos_mag_' + new Date().toISOString().slice(0,10);
     safeSet(todayKey, magChecked ? 'true' : 'false');
     renderMagnesium();
+
+    habits.mag = magChecked;
+    const el = document.getElementById('habit-mag');
+    const icon = document.getElementById('icon-mag');
+    if (el && icon) {
+      if (magChecked) {
+        el.classList.add('checked');
+        icon.innerText = '✓';
+      } else {
+        el.classList.remove('checked');
+        icon.innerText = '○';
+      }
+    }
   }
 
   function renderMagnesium() {
@@ -1233,6 +1326,13 @@
     const pctLabel = document.getElementById('hydro-percent');
     if (countLabel) countLabel.innerText = `${totalOz} / 128 OZ`;
     if (pctLabel) pctLabel.innerText = `${pct}% COMPLETED`;
+    
+    if (totalOz >= 128) {
+      habits.hydro = true;
+      const el = document.getElementById('habit-hydro');
+      const icon = document.getElementById('icon-hydro');
+      if (el && icon) { el.classList.add('checked'); icon.innerText = '✓'; }
+    }
   }
 
   let habits = {
@@ -1241,7 +1341,9 @@
     hydro: false,
     trade: false,
     steps: false,
-    mag: false
+    mag: false,
+    meditation: false,
+    journal: false
   };
   let currentRating = 9;
 
@@ -1257,6 +1359,12 @@
         el.classList.remove('checked');
         icon.innerText = '○';
       }
+    }
+    if (key === 'mag') {
+      magChecked = habits.mag;
+      const todayKey = 'kairos_mag_' + new Date().toISOString().slice(0,10);
+      safeSet(todayKey, magChecked ? 'true' : 'false');
+      renderMagnesium();
     }
   }
 
@@ -1284,6 +1392,8 @@
       trading: habits.trade,
       steps: habits.steps,
       magnesium: habits.mag,
+      meditation: habits.meditation,
+      journal: habits.journal,
       rating: currentRating,
       notes: "Logged via KAIROS HUD"
     };
@@ -1324,19 +1434,6 @@
       if (btnAm) btnAm.classList.remove('active');
       
       document.getElementById('system-header-title').innerText = 'KAIROS // STEALTH PM DEBRIEF';
-
-      document.getElementById('m1-lbl').innerText = 'DAILY RISK CEILING';
-      document.getElementById('m1-val').innerText = '$250 (1R)';
-      document.getElementById('m1-val').className = 'metric-val';
-
-      document.getElementById('m2-lbl').innerText = 'HARD STOP CEILING';
-      document.getElementById('m2-val').innerText = '-2R';
-      document.getElementById('m2-val').className = 'metric-val crimson';
-
-      document.getElementById('m3-lbl').innerText = 'TARGET SLEEP';
-      document.getElementById('m3-val').innerText = '10:30 PM PT';
-      document.getElementById('m3-val').className = 'metric-val amber';
-
       document.getElementById('timeline-title').innerText = 'EVENING DECOMPRESSION TIMELINE';
       document.getElementById('timeline-icon').innerText = '🌙';
 
@@ -1350,19 +1447,6 @@
       if (btnPm) btnPm.classList.remove('active');
       
       document.getElementById('system-header-title').innerText = 'KAIROS // HOLOGRAPHIC AM COCKPIT';
-
-      document.getElementById('m1-lbl').innerText = 'DAILY RISK CEILING';
-      document.getElementById('m1-val').innerText = '$250 (1R)';
-      document.getElementById('m1-val').className = 'metric-val';
-
-      document.getElementById('m2-lbl').innerText = 'HARD STOP CEILING';
-      document.getElementById('m2-val').innerText = '-2R';
-      document.getElementById('m2-val').className = 'metric-val crimson';
-
-      document.getElementById('m3-lbl').innerText = 'EXECUTION CUTOFF';
-      document.getElementById('m3-val').innerText = '8:00 AM';
-      document.getElementById('m3-val').className = 'metric-val amber';
-
       document.getElementById('timeline-title').innerText = 'OPERATIONAL CADENCE';
       document.getElementById('timeline-icon').innerText = '⚡';
 
