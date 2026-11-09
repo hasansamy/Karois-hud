@@ -1,10 +1,10 @@
 {
-  "date": "Sunday, Nov 08",
+  "date": "Monday, Nov 09",
   "quote": "Whatever the Way, the master of strategy does not appear fast. Really skillful people never get out of time, are always deliberate, and never appear busy.",
   "author": "Miyamoto Musashi",
   "heroText": "NY AM execution window active. Real-time NQ/ES feed locked, STMicroelectronics operations active, and UCSB final quarter on track.",
   "gauges": {
-    "mondayRR": "OPEN",
+    "mondayRR": "1:1",
     "tradeCeiling": "01",
     "stOps": "04",
     "deadlines": "7D"
@@ -12,7 +12,7 @@
   "timeline": [
     {
       "title": "NY AM Futures Execution Window (MNQ / ES)",
-      "meta": "06:30 AM \u2013 08:00 AM PT \u00b7 Standard execution. 1R risk cap ($200\u2013$250).",
+      "meta": "06:30 AM \u2013 08:00 AM PT \u00b7 MONDAY MANDATE: Strictly 1:1 RR target. 1R risk cap ($200\u2013$250).",
       "color": "emerald"
     },
     {
