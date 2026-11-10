@@ -1502,6 +1502,45 @@
       setMode('am');
     }
   });
+  async function loadBriefData() {
+    try {
+      const res = await fetch('brief.json?v=' + Date.now(), { 
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache' }
+      });
+      if (!res.ok) throw new Error('brief.json not found');
+      const data = await res.json();
+
+      // Updates quote & author
+      if (data.wisdom || data.quote) {
+        const quoteEl = document.getElementById('brief-quote');
+        const authorEl = document.getElementById('brief-author');
+        if (quoteEl) quoteEl.innerText = `"${data.wisdom?.text || data.quote || ''}"`;
+        if (authorEl) authorEl.innerText = `— ${data.wisdom?.author || data.author || 'KAIROS ANCHOR'}`;
+      }
+
+      // Updates high impact news / red folder
+      if (data.macro || data.red_folder) {
+        const radarContainer = document.querySelector('.radar-desc');
+        if (radarContainer) {
+          radarContainer.innerText = data.macro || data.red_folder;
+        }
+      }
+
+      // Updates weather
+      if (data.weather) {
+        const weatherSub = document.querySelector('.commute-card .commute-info-sub');
+        const weatherBadge = document.querySelector('.commute-card .commute-badge');
+        if (weatherSub && data.weather.summary) weatherSub.innerText = data.weather.summary;
+        if (weatherBadge && data.weather.temp) weatherBadge.innerText = data.weather.temp;
+      }
+    } catch (err) {
+      console.warn('Could not load brief.json:', err);
+    }
+  }
+
+  // Runs immediately on page load
+  loadBriefData();
 </script>
 </body>
 </html>
