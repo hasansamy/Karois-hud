@@ -934,25 +934,28 @@
         </div>
       </div>
 
+      <!-- REPLACED: Active Subscriptions Tracker -->
       <div class="holo-panel am-only">
         <div class="panel-header">
-          <div class="panel-title">💳 FINANCIAL RADAR & CARDS</div>
-          <span class="panel-tag">ACTIVE WALLET</span>
+          <div class="panel-title">🔄 ACTIVE SUBSCRIPTIONS</div>
+          <span class="panel-tag" id="subs-count-tag">MONTHLY OVERVIEW</span>
         </div>
 
-        <div class="time-block" style="border-left-color: var(--primary);">
-          <div class="time-title">American Express Gold</div>
-          <div class="time-meta">Charge Card · 4x Groceries/Dining · $10/mo Dining Credit Active</div>
-        </div>
+        <div id="subscriptions-container">
+          <div class="time-block" style="border-left-color: var(--primary);">
+            <div class="time-title">TradingView Essential + CME Market Data</div>
+            <div class="time-meta">Market Execution · $14.95/mo + $3.00/mo · Renews 20th</div>
+          </div>
 
-        <div class="time-block emerald">
-          <div class="time-title">Wells Fargo Active Cash</div>
-          <div class="time-meta">$2,000 Credit Limit · 2% Universal Cashback Anchor</div>
-        </div>
+          <div class="time-block amber">
+            <div class="time-title">No Hesi Underground Tier 3</div>
+            <div class="time-meta">Assetto Corsa Server Rig · $27.99/mo · Renews Dec 5</div>
+          </div>
 
-        <div class="time-block amber">
-          <div class="time-title">No Hesi Underground Tier 3</div>
-          <div class="time-meta">Stripe Recurring · Renewal: Dec 5, 2026 ($27.99)</div>
+          <div class="time-block emerald">
+            <div class="time-title">Apple One / Cloud Storage</div>
+            <div class="time-meta">Device & Photos Backup · Active Tier</div>
+          </div>
         </div>
       </div>
 
@@ -1354,7 +1357,22 @@
         }
       }
 
-      // 5. Dynamic Inbox Docket
+      // 5. Dynamic Subscriptions (reads from brief.json if present)
+      if (Array.isArray(briefData.subscriptions) && briefData.subscriptions.length > 0) {
+        const sContainer = document.getElementById('subscriptions-container');
+        const sTag = document.getElementById('subs-count-tag');
+        if (sTag) sTag.innerText = `${briefData.subscriptions.length} ACTIVE`;
+        if (sContainer) {
+          sContainer.innerHTML = briefData.subscriptions.map(sub => `
+            <div class="time-block ${sub.color || 'cyan'}">
+              <div class="time-title">${sub.title}</div>
+              <div class="time-meta">${sub.meta}</div>
+            </div>
+          `).join('');
+        }
+      }
+
+      // 6. Dynamic Inbox Docket
       const inboxContainer = document.getElementById('inbox-docket');
       const inboxTag = document.getElementById('inbox-status-tag');
       if (inboxContainer) {
@@ -1382,7 +1400,6 @@
           `).join('');
           setupInboxListeners();
         } else {
-          // Clean state when inbox is empty or not in brief.json
           if (inboxTag) inboxTag.innerText = '0 PENDING FLAGS';
           inboxContainer.innerHTML = `
             <div class="time-block emerald" style="margin-bottom: 0;">
@@ -1443,7 +1460,6 @@
     const saved = safeGet('kairos_holo_mode');
     setMode(saved || 'am');
 
-    // Fetch and bind live brief.json
     loadBriefData();
   });
 </script>
