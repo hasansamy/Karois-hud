@@ -768,4 +768,684 @@
   body.pm-mode .am-only { display: none !important; }
   body.pm-mode .pm-only { display: block !important; }
 
-  body.pm-mode .pm-only.metric-card { display: flex
+  body.pm-mode .pm-only.metric-card { display: flex !important; }
+  body.pm-mode .pm-only.holo-panel { display: block !important; }
+  body:not(.pm-mode) .am-only.metric-card { display: flex !important; }
+  body:not(.pm-mode) .am-only.commute-banner { display: grid !important; }
+
+  @keyframes pulseNode {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.6; }
+  }
+
+  @keyframes breatheAnim {
+    0%, 100% { transform: scale(0.75); opacity: 0.5; }
+    21% { transform: scale(1.25); opacity: 1; }
+    58% { transform: scale(1.25); opacity: 0.95; }
+    100% { transform: scale(0.75); opacity: 0.5; }
+  }
+
+  @media (max-width: 900px) {
+    .main-deck, .commute-banner, .tracker-grid { grid-template-columns: 1fr; }
+    .hud-wrapper { padding: 16px; }
+    .holo-nav { flex-direction: column; gap: 14px; align-items: flex-start; }
+    .hero-hologram { padding: 22px; }
+    .hero-quote { font-size: 17px; }
+  }
+</style>
+</head>
+<body onclick="void(0)">
+
+<div class="holo-grid"></div>
+
+<div class="hud-wrapper">
+
+  <header class="holo-nav">
+    <div class="nav-left">
+      <div class="system-node"></div>
+      <div>
+        <div class="system-title" id="system-header-title">KAIROS // HOLOGRAPHIC AM COCKPIT</div>
+        <div style="font-size: 12px; color: var(--text-sub); font-family: var(--font-mono); margin-top: 2px;" id="node-location-label">
+          NODE: SAN JOSE, CA · PACIFIC STANDARD
+        </div>
+      </div>
+    </div>
+
+    <div class="switch-dock">
+      <button type="button" id="dock-am" class="dock-btn active">AM · HOLOGRAPHIC LIGHT</button>
+      <button type="button" id="dock-pm" class="dock-btn">PM · STEALTH DEBRIEF</button>
+    </div>
+
+    <div class="nav-right">
+      <span id="live-time">--:--:-- --</span>
+    </div>
+  </header>
+
+  <section class="commute-banner am-only">
+    <div class="commute-card">
+      <div>
+        <div class="commute-info-title">☀️ SAN JOSE WEATHER</div>
+        <div class="commute-info-sub" id="weather-summary">Morning 54°F · Crisp & Clear · High of 68°F</div>
+      </div>
+      <div class="commute-badge" id="weather-badge" style="color: var(--accent-amber);">54°F</div>
+    </div>
+
+    <div class="commute-card">
+      <div>
+        <div class="commute-info-title">🚗 COMMUTE RADAR (DEPART 8:00 AM)</div>
+        <div class="commute-info-sub">To: STMicroelectronics (Santa Clara) · 11.3 mi via I-880 S</div>
+      </div>
+      <div class="commute-badge" style="color: var(--accent-crimson);">
+        28 MIN
+        <div style="font-size: 10px; color: var(--text-sub); font-family: var(--font-mono);">MODERATE / HEAVY</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero-hologram">
+    <div id="brief-quote" class="hero-quote">
+      "Loading daily strategic perspective..."
+    </div>
+    <div id="brief-author" class="hero-author">— KAIROS ANCHOR</div>
+  </section>
+
+  <section class="metric-deck" id="metric-deck-container">
+    <div class="metric-card am-only">
+      <div class="metric-label">DAILY RISK CEILING</div>
+      <div class="metric-val">$250 (1R)</div>
+    </div>
+    <div class="metric-card am-only">
+      <div class="metric-label">HARD STOP CEILING</div>
+      <div class="metric-val crimson">-2R</div>
+    </div>
+    <div class="metric-card am-only">
+      <div class="metric-label">EXECUTION CUTOFF</div>
+      <div class="metric-val amber">8:00 AM</div>
+    </div>
+    
+    <div class="metric-card am-only" id="mon-fri-metric-card" style="display: none;">
+      <div class="metric-label">MON & FRI MANDATE</div>
+      <div class="metric-val emerald">TRIM 90% @ 1:1</div>
+    </div>
+
+    <div class="metric-card pm-only" id="mag-metric-card">
+      <div class="mag-row">
+        <div class="metric-label">MAGNESIUM GLYCINATE</div>
+        <div class="mag-bubble" id="mag-toggle-btn" onclick="toggleMagnesium()">○</div>
+      </div>
+      <div class="metric-val emerald" id="mag-status-text">PENDING</div>
+    </div>
+    <div class="metric-card pm-only">
+      <div class="metric-label">TARGET SLEEP</div>
+      <div class="metric-val amber">10:30 PM</div>
+    </div>
+    <div class="metric-card pm-only">
+      <div class="metric-label">NERVOUS SYSTEM</div>
+      <div class="metric-val cyan">PARASYMPATHETIC</div>
+    </div>
+  </section>
+
+  <main class="main-deck">
+    
+    <div class="deck-pane">
+      
+      <div class="holo-panel">
+        <div class="panel-header">
+          <div class="panel-title">💧 DAILY HYDRATION PROTOCOL</div>
+          <span class="panel-tag" id="hydro-count-label">0 / 128 OZ</span>
+        </div>
+        <div class="hydro-tracker">
+          <div class="hydro-segments">
+            <div class="hydro-block" onclick="toggleHydro(0)">
+              <div class="hydro-block-vol">32 OZ</div>
+              <div class="hydro-block-lbl">BOTTLE 1</div>
+            </div>
+            <div class="hydro-block" onclick="toggleHydro(1)">
+              <div class="hydro-block-vol">64 OZ</div>
+              <div class="hydro-block-lbl">BOTTLE 2</div>
+            </div>
+            <div class="hydro-block" onclick="toggleHydro(2)">
+              <div class="hydro-block-vol">96 OZ</div>
+              <div class="hydro-block-lbl">BOTTLE 3</div>
+            </div>
+            <div class="hydro-block" onclick="toggleHydro(3)">
+              <div class="hydro-block-vol">128 OZ</div>
+              <div class="hydro-block-lbl">TARGET HIT</div>
+            </div>
+          </div>
+          <div class="hydro-status">
+            <span>TAP BOTTLE TO LOG 32 OZ</span>
+            <span id="hydro-percent">0% COMPLETED</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="holo-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span id="timeline-icon">⚡</span>
+            <span id="timeline-title">OPERATIONAL CADENCE</span>
+          </div>
+          <span class="panel-tag">PST SYNCED</span>
+        </div>
+
+        <div id="timeline-container">
+          <!-- Dynamically populated from brief.json -->
+        </div>
+      </div>
+
+      <div class="holo-panel am-only">
+        <div class="panel-header">
+          <div class="panel-title">💳 FINANCIAL RADAR & CARDS</div>
+          <span class="panel-tag">ACTIVE WALLET</span>
+        </div>
+
+        <div class="time-block" style="border-left-color: var(--primary);">
+          <div class="time-title">American Express Gold</div>
+          <div class="time-meta">Charge Card · 4x Groceries/Dining · $10/mo Dining Credit Active</div>
+        </div>
+
+        <div class="time-block emerald">
+          <div class="time-title">Wells Fargo Active Cash</div>
+          <div class="time-meta">$2,000 Credit Limit · 2% Universal Cashback Anchor</div>
+        </div>
+
+        <div class="time-block amber">
+          <div class="time-title">No Hesi Underground Tier 3</div>
+          <div class="time-meta">Stripe Recurring · Renewal: Dec 5, 2026 ($27.99)</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="deck-pane">
+      
+      <div class="holo-panel am-only">
+        <div class="panel-header">
+          <div class="panel-title">🚨 RED FOLDER NEWS (HIGH-IMPACT ONLY)</div>
+          <span class="panel-tag">MACRO RADAR</span>
+        </div>
+
+        <div id="radar-container">
+          <!-- Dynamically populated from brief.json -->
+        </div>
+      </div>
+
+      <div class="holo-panel pm-only">
+        <div class="panel-header">
+          <div class="panel-title">📊 DAILY CONSISTENCY LOG</div>
+          <span class="panel-tag">LIVE WEBHOOK SYNC</span>
+        </div>
+
+        <div class="tracker-grid">
+          <div class="habit-pill" id="habit-gym" onclick="toggleHabit('gym')">
+            <span class="habit-name">GYM / STRENGTH</span>
+            <span class="habit-check-icon" id="icon-gym">○</span>
+          </div>
+          <div class="habit-pill" id="habit-diet" onclick="toggleHabit('diet')">
+            <span class="habit-name">CLEAN BULK / DIET</span>
+            <span class="habit-check-icon" id="icon-diet">○</span>
+          </div>
+          <div class="habit-pill" id="habit-hydro" onclick="toggleHabit('hydro')">
+            <span class="habit-name">128 OZ HYDRATION</span>
+            <span class="habit-check-icon" id="icon-hydro">○</span>
+          </div>
+          <div class="habit-pill" id="habit-trade" onclick="toggleHabit('trade')">
+            <span class="habit-name">TRADING PLAN (NO -2R)</span>
+            <span class="habit-check-icon" id="icon-trade">○</span>
+          </div>
+          <div class="habit-pill" id="habit-steps" onclick="toggleHabit('steps')">
+            <span class="habit-name">7.5K+ STEPS</span>
+            <span class="habit-check-icon" id="icon-steps">○</span>
+          </div>
+          <div class="habit-pill" id="habit-mag" onclick="toggleHabit('mag')">
+            <span class="habit-name">MAGNESIUM GLYCINATE</span>
+            <span class="habit-check-icon" id="icon-mag">○</span>
+          </div>
+          <div class="habit-pill" id="habit-meditation" onclick="toggleHabit('meditation')">
+            <span class="habit-name">MEDITATION</span>
+            <span class="habit-check-icon" id="icon-meditation">○</span>
+          </div>
+          <div class="habit-pill" id="habit-journal" onclick="toggleHabit('journal')">
+            <span class="habit-name">JOURNAL</span>
+            <span class="habit-check-icon" id="icon-journal">○</span>
+          </div>
+        </div>
+
+        <div class="rating-wrapper">
+          <div class="rating-label">Daily Rating (1 – 10)</div>
+          <div class="rating-row" id="rating-buttons">
+            <button type="button" class="rate-btn" onclick="setRating(1)">1</button>
+            <button type="button" class="rate-btn" onclick="setRating(2)">2</button>
+            <button type="button" class="rate-btn" onclick="setRating(3)">3</button>
+            <button type="button" class="rate-btn" onclick="setRating(4)">4</button>
+            <button type="button" class="rate-btn" onclick="setRating(5)">5</button>
+            <button type="button" class="rate-btn" onclick="setRating(6)">6</button>
+            <button type="button" class="rate-btn" onclick="setRating(7)">7</button>
+            <button type="button" class="rate-btn" onclick="setRating(8)">8</button>
+            <button type="button" class="rate-btn active" onclick="setRating(9)">9</button>
+            <button type="button" class="rate-btn" onclick="setRating(10)">10</button>
+          </div>
+        </div>
+
+        <div class="submit-dock">
+          <button type="button" class="sync-btn" id="btn-sync-sheet" onclick="submitToSheet()">LOG TO GOOGLE SHEETS ✓</button>
+          <button type="button" class="sheet-link-btn" onclick="window.open('https://docs.google.com/spreadsheets/d/1s_tS5HZXrPMj4PUkNovuTrB6BbuiqRIINlLIRXb4ot0/edit','_blank')">OPEN SHEET ↗</button>
+        </div>
+        <div class="sync-status-msg" id="sync-status">LOG RECORDED SUCCESSFULLY IN GOOGLE SHEET</div>
+      </div>
+
+      <div class="holo-panel pm-only">
+        <div class="panel-header">
+          <div class="panel-title">🧘 4-7-8 NERVOUS SYSTEM DOWNSHIFT</div>
+          <span class="panel-tag">PARASYMPATHETIC RESET</span>
+        </div>
+        <div class="breath-box">
+          <div class="breath-sphere">INHALE (4s)</div>
+          <div class="breath-caption">Sync breath: Inhale 4s · Hold 7s · Exhale 8s</div>
+        </div>
+      </div>
+
+      <div class="holo-panel am-only">
+        <div class="panel-header">
+          <div class="panel-title">📬 HIGH-PRIORITY INBOX</div>
+          <span class="panel-tag" id="inbox-status-tag">RADAR ACTIVE</span>
+        </div>
+
+        <div class="inbox-list" id="inbox-docket">
+          <!-- Dynamically populated from brief.json -->
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxCYW6TWAA5Mvty5zhxtRF-bK486yI0AK8lUSVIJ-svUr4wIvmaxjZr2PkB2UJyAMAOCA/exec";
+
+  function safeGet(key) {
+    try { return localStorage.getItem(key); } catch (e) { return null; }
+  }
+  function safeSet(key, val) {
+    try { localStorage.setItem(key, val); } catch (e) {}
+  }
+
+  let briefData = null;
+
+  function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const el = document.getElementById('live-time');
+    if (el) el.innerText = `${hours}:${minutes}:${seconds} ${ampm} PT`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  function checkDayOfWeek() {
+    const now = new Date();
+    const day = now.getDay();
+    const monFriCard = document.getElementById('mon-fri-metric-card');
+    if (monFriCard) {
+      monFriCard.style.display = (day === 1 || day === 5) ? 'flex' : 'none';
+    }
+  }
+
+  let magChecked = false;
+  function loadMagnesium() {
+    const todayKey = 'kairos_mag_' + new Date().toISOString().slice(0,10);
+    magChecked = safeGet(todayKey) === 'true';
+    renderMagnesium();
+  }
+
+  function toggleMagnesium() {
+    magChecked = !magChecked;
+    const todayKey = 'kairos_mag_' + new Date().toISOString().slice(0,10);
+    safeSet(todayKey, magChecked ? 'true' : 'false');
+    renderMagnesium();
+
+    habits.mag = magChecked;
+    const el = document.getElementById('habit-mag');
+    const icon = document.getElementById('icon-mag');
+    if (el && icon) {
+      if (magChecked) {
+        el.classList.add('checked');
+        icon.innerText = '✓';
+      } else {
+        el.classList.remove('checked');
+        icon.innerText = '○';
+      }
+    }
+  }
+
+  function renderMagnesium() {
+    const btn = document.getElementById('mag-toggle-btn');
+    const text = document.getElementById('mag-status-text');
+    if (btn && text) {
+      if (magChecked) {
+        btn.classList.add('checked');
+        btn.innerText = '✓';
+        text.innerText = 'TAKEN';
+        text.className = 'metric-val emerald';
+      } else {
+        btn.classList.remove('checked');
+        btn.innerText = '○';
+        text.innerText = 'PENDING';
+        text.className = 'metric-val amber';
+      }
+    }
+  }
+
+  let hydroState = [false, false, false, false];
+  function loadHydro() {
+    const raw = safeGet('kairos_hydro_state');
+    if (raw) {
+      try { hydroState = JSON.parse(raw); } catch (e) {}
+    }
+    renderHydro();
+  }
+
+  function toggleHydro(idx) {
+    hydroState[idx] = !hydroState[idx];
+    safeSet('kairos_hydro_state', JSON.stringify(hydroState));
+    renderHydro();
+  }
+
+  function renderHydro() {
+    const blocks = document.querySelectorAll('.hydro-block');
+    let count = 0;
+    blocks.forEach((b, i) => {
+      if (hydroState[i]) {
+        b.classList.add('active');
+        count++;
+      } else {
+        b.classList.remove('active');
+      }
+    });
+    const totalOz = count * 32;
+    const pct = Math.round((totalOz / 128) * 100);
+    const countLabel = document.getElementById('hydro-count-label');
+    const pctLabel = document.getElementById('hydro-percent');
+    if (countLabel) countLabel.innerText = `${totalOz} / 128 OZ`;
+    if (pctLabel) pctLabel.innerText = `${pct}% COMPLETED`;
+    
+    if (totalOz >= 128) {
+      habits.hydro = true;
+      const el = document.getElementById('habit-hydro');
+      const icon = document.getElementById('icon-hydro');
+      if (el && icon) { el.classList.add('checked'); icon.innerText = '✓'; }
+    }
+  }
+
+  let habits = {
+    gym: false,
+    diet: false,
+    hydro: false,
+    trade: false,
+    steps: false,
+    mag: false,
+    meditation: false,
+    journal: false
+  };
+  let currentRating = 9;
+
+  function toggleHabit(key) {
+    habits[key] = !habits[key];
+    const el = document.getElementById('habit-' + key);
+    const icon = document.getElementById('icon-' + key);
+    if (el && icon) {
+      if (habits[key]) {
+        el.classList.add('checked');
+        icon.innerText = '✓';
+      } else {
+        el.classList.remove('checked');
+        icon.innerText = '○';
+      }
+    }
+    if (key === 'mag') {
+      magChecked = habits.mag;
+      const todayKey = 'kairos_mag_' + new Date().toISOString().slice(0,10);
+      safeSet(todayKey, magChecked ? 'true' : 'false');
+      renderMagnesium();
+    }
+  }
+
+  function setRating(val) {
+    currentRating = val;
+    document.querySelectorAll('.rate-btn').forEach((btn, idx) => {
+      if (idx + 1 === val) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+  }
+
+  function submitToSheet() {
+    const syncBtn = document.getElementById('btn-sync-sheet');
+    const statusMsg = document.getElementById('sync-status');
+    if (syncBtn) {
+      syncBtn.innerText = 'SYNCING TO GOOGLE SHEETS...';
+      syncBtn.style.opacity = '0.7';
+    }
+
+    const payload = {
+      date: new Date().toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' }),
+      gym: habits.gym,
+      diet: habits.diet,
+      hydration: habits.hydro,
+      trading: habits.trade,
+      steps: habits.steps,
+      magnesium: habits.mag,
+      meditation: habits.meditation,
+      journal: habits.journal,
+      rating: currentRating,
+      notes: "Logged via KAIROS HUD"
+    };
+
+    fetch(WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      if (syncBtn) {
+        syncBtn.innerText = 'LOGGED TO GOOGLE SHEETS ✓';
+        syncBtn.style.opacity = '1';
+      }
+      if (statusMsg) {
+        statusMsg.style.display = 'block';
+        setTimeout(() => { statusMsg.style.display = 'none'; }, 4000);
+      }
+    }).catch(err => {
+      if (syncBtn) {
+        syncBtn.innerText = 'LOGGED (LOCAL CACHE)';
+        syncBtn.style.opacity = '1';
+      }
+    });
+  }
+
+  function setMode(mode) {
+    safeSet('kairos_holo_mode', mode);
+
+    const btnAm = document.getElementById('dock-am');
+    const btnPm = document.getElementById('dock-pm');
+
+    if (mode === 'pm') {
+      document.body.classList.add('pm-mode');
+      if (btnPm) btnPm.classList.add('active');
+      if (btnAm) btnAm.classList.remove('active');
+      
+      document.getElementById('system-header-title').innerText = 'KAIROS // STEALTH PM DEBRIEF';
+      document.getElementById('timeline-title').innerText = 'EVENING DECOMPRESSION TIMELINE';
+      document.getElementById('timeline-icon').innerText = '🌙';
+
+      const monFriCard = document.getElementById('mon-fri-metric-card');
+      if (monFriCard) monFriCard.style.display = 'none';
+
+      loadMagnesium();
+    } else {
+      document.body.classList.remove('pm-mode');
+      if (btnAm) btnAm.classList.add('active');
+      if (btnPm) btnPm.classList.remove('active');
+      
+      document.getElementById('system-header-title').innerText = 'KAIROS // HOLOGRAPHIC AM COCKPIT';
+      document.getElementById('timeline-title').innerText = 'OPERATIONAL CADENCE';
+      document.getElementById('timeline-icon').innerText = '⚡';
+
+      checkDayOfWeek();
+    }
+  }
+
+  async function loadBriefData() {
+    try {
+      const res = await fetch('brief.json?v=' + Date.now(), { 
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache' }
+      });
+      if (!res.ok) throw new Error('brief.json unreadable');
+      briefData = await res.json();
+
+      // 1. Wisdom Quote & Author
+      const quoteEl = document.getElementById('brief-quote');
+      const authorEl = document.getElementById('brief-author');
+      if (quoteEl && (briefData.quote || briefData.wisdom)) {
+        quoteEl.innerText = `"${briefData.quote || briefData.wisdom?.text || ''}"`;
+      }
+      if (authorEl && (briefData.author || briefData.wisdom)) {
+        authorEl.innerText = `— ${briefData.author || briefData.wisdom?.author || 'KAIROS ANCHOR'}`;
+      }
+
+      // 2. Synced Date Header
+      if (briefData.date) {
+        const nodeLabel = document.getElementById('node-location-label');
+        if (nodeLabel) nodeLabel.innerText = `NODE: SAN JOSE, CA · ${briefData.date.toUpperCase()}`;
+      }
+
+      // 3. Operational Timeline
+      if (Array.isArray(briefData.timeline) && briefData.timeline.length > 0) {
+        const tContainer = document.getElementById('timeline-container');
+        if (tContainer) {
+          tContainer.innerHTML = briefData.timeline.map(item => `
+            <div class="time-block ${item.color || 'cyan'}">
+              <div class="time-title">${item.title}</div>
+              <div class="time-meta">${item.meta}</div>
+            </div>
+          `).join('');
+        }
+      }
+
+      // 4. Macro Radar / Red Folder
+      if (Array.isArray(briefData.radar) && briefData.radar.length > 0) {
+        const rContainer = document.getElementById('radar-container');
+        if (rContainer) {
+          rContainer.innerHTML = briefData.radar.map(item => `
+            <div class="radar-row">
+              <div class="radar-head">
+                <span class="radar-pill-red">${item.title.toUpperCase()}</span>
+              </div>
+              <div class="radar-desc">${item.meta}</div>
+            </div>
+          `).join('');
+        }
+      }
+
+      // 5. Dynamic Inbox Docket
+      const inboxContainer = document.getElementById('inbox-docket');
+      const inboxTag = document.getElementById('inbox-status-tag');
+      if (inboxContainer) {
+        if (Array.isArray(briefData.inbox) && briefData.inbox.length > 0) {
+          if (inboxTag) inboxTag.innerText = `${briefData.inbox.length} UNREAD FLAGGED`;
+          inboxContainer.innerHTML = briefData.inbox.map(mail => `
+            <div class="email-item">
+              <div class="email-header-row">
+                <div class="email-summary">
+                  <div class="email-sender">${mail.sender || 'Priority Sender'}</div>
+                  <div class="email-subject">${mail.subject || 'Action Required'}</div>
+                </div>
+                <div class="email-meta-right">
+                  <span class="expand-pill">VIEW</span>
+                  <button type="button" class="email-dismiss" title="Dismiss">✕</button>
+                </div>
+              </div>
+              <div class="email-drawer">
+                <div class="drawer-body">${mail.body || mail.snippet || 'No preview available.'}</div>
+                <div class="drawer-actions">
+                  <button type="button" class="drawer-btn" onclick="window.open('https://mail.google.com','_blank')">Open in Gmail</button>
+                </div>
+              </div>
+            </div>
+          `).join('');
+          setupInboxListeners();
+        } else {
+          // Clean state when inbox is empty or not in brief.json
+          if (inboxTag) inboxTag.innerText = '0 PENDING FLAGS';
+          inboxContainer.innerHTML = `
+            <div class="time-block emerald" style="margin-bottom: 0;">
+              <div class="time-title">All Priority Queues Clear</div>
+              <div class="time-meta">Zero urgent action items flagged. Work window and trading channels ready for execution.</div>
+            </div>
+          `;
+        }
+      }
+
+    } catch (e) {
+      console.warn('Using embedded state:', e);
+    }
+  }
+
+  function setupInboxListeners() {
+    document.querySelectorAll('.email-item').forEach(item => {
+      const header = item.querySelector('.email-header-row');
+      const drawer = item.querySelector('.email-drawer');
+      const dismissBtn = item.querySelector('.email-dismiss');
+      const pill = item.querySelector('.expand-pill');
+
+      if (header && drawer) {
+        header.addEventListener('click', (e) => {
+          if (e.target.closest('.email-dismiss')) return;
+          const isExpanded = drawer.style.display === 'block';
+          document.querySelectorAll('.email-drawer').forEach(d => d.style.display = 'none');
+          document.querySelectorAll('.expand-pill').forEach(p => p.innerText = 'VIEW');
+
+          if (!isExpanded) {
+            drawer.style.display = 'block';
+            if (pill) pill.innerText = 'COLLAPSE';
+          }
+        });
+      }
+
+      if (dismissBtn) {
+        dismissBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          item.style.opacity = '0';
+          item.style.transform = 'scale(0.92)';
+          setTimeout(() => item.remove(), 250);
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const btnAm = document.getElementById('dock-am');
+    const btnPm = document.getElementById('dock-pm');
+    if (btnAm) btnAm.addEventListener('click', () => setMode('am'));
+    if (btnPm) btnPm.addEventListener('click', () => setMode('pm'));
+
+    loadHydro();
+    checkDayOfWeek();
+
+    const saved = safeGet('kairos_holo_mode');
+    setMode(saved || 'am');
+
+    // Fetch and bind live brief.json
+    loadBriefData();
+  });
+</script>
+</body>
+</html>
